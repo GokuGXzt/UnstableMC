@@ -48,11 +48,11 @@
             UNSTABLEMC
         </div>
         <div class="flex items-center gap-2">
-            <!-- UnstableCoins Balance Badge -->
-            <div class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)]">
+            <!-- Clickable UnstableCoins Balance Badge -->
+            <a href="coins.html" class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)] hover:bg-yellow-500/20 transition">
                 <i class="fa-solid fa-coins text-yellow-400 text-[11px]"></i>
                 <span id="coin-balance">1,250</span>
-            </div>
+            </a>
             <!-- Discord Link -->
             <a href="https://discord.gg/Rac47jhsw" target="_blank" class="text-purple-400 hover:text-purple-300 text-xs font-semibold flex items-center gap-1 bg-purple-500/10 border border-purple-500/30 px-2.5 py-1 rounded-full">
                 <i class="fa-brands fa-discord"></i> Discord
@@ -140,15 +140,18 @@
                 </div>
             </div>
 
-            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+            <!-- Clickable Card to Coins Page -->
+            <a href="coins.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/40 transition">
                 <div class="w-16 h-16 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-2xl flex-shrink-0">
                     <i class="fa-solid fa-coins"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-white">UnstableCoins System</h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Earn custom UnstableCoins through gameplay, voting, and trading with other players.</p>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                        UnstableCoins System <i class="fa-solid fa-arrow-right text-xs text-yellow-400"></i>
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Click to view your coin analytics, earnings, and transaction history.</p>
                 </div>
-            </div>
+            </a>
 
             <div class="glass-card p-4 rounded-xl flex items-center gap-4">
                 <div class="w-16 h-16 rounded-lg bg-pink-900/40 flex items-center justify-center text-pink-400 text-2xl flex-shrink-0">
@@ -197,4 +200,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+        
