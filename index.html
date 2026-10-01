@@ -66,9 +66,12 @@
                 </button>
 
                 <!-- Dropdown Menu -->
-                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-36 dropdown-glass rounded-xl shadow-xl overflow-hidden z-50 flex flex-col py-1">
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-40 dropdown-glass rounded-xl shadow-xl overflow-hidden z-50 flex flex-col py-1">
                     <a href="marketplace.html" class="flex items-center gap-2 px-3.5 py-2 text-xs text-gray-200 hover:bg-purple-600/30 hover:text-white transition">
                         <i class="fa-solid fa-store text-purple-400"></i> Store
+                    </a>
+                    <a href="earn.html" class="flex items-center gap-2 px-3.5 py-2 text-xs text-gray-200 hover:bg-yellow-600/30 hover:text-white transition">
+                        <i class="fa-solid fa-dharmachakra text-yellow-400"></i> Earn Coins
                     </a>
                 </div>
             </div>
@@ -168,6 +171,19 @@
                 </div>
             </a>
 
+            <!-- Clickable Card to Earn Coins (Wheel) Page -->
+            <a href="earn.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/40 transition">
+                <div class="w-16 h-16 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-2xl flex-shrink-0">
+                    <i class="fa-solid fa-dharmachakra"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+                        Fortune Wheel <i class="fa-solid fa-arrow-right text-xs text-yellow-400"></i>
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Spin the daily wheel to earn free UnstableCoins instantly!</p>
+                </div>
+            </a>
+
             <!-- Clickable Card to Marketplace Page -->
             <a href="marketplace.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-purple-500/40 transition">
                 <div class="w-16 h-16 rounded-lg bg-purple-900/40 flex items-center justify-center text-purple-400 text-2xl flex-shrink-0">
@@ -178,16 +194,6 @@
                         Server Marketplace <i class="fa-solid fa-arrow-right text-xs text-purple-400"></i>
                     </h3>
                     <p class="text-xs text-gray-400 mt-0.5">Spend your UnstableCoins on ranks, kits, and exclusive perks.</p>
-                </div>
-            </a>
-
-            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
-                <div class="w-16 h-16 rounded-lg bg-pink-900/40 flex items-center justify-center text-pink-400 text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-white">Optimized TPS</h3>
-                    <p class="text-xs text-gray-400 mt-0.5">High performance Paper/Purpur backend with custom performance plugins.</p>
                 </div>
             </div>
         </section>
@@ -214,8 +220,14 @@
         <p>&copy; 2026 UnstableMC. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Menu & Copy IP -->
+    <!-- JavaScript for Menu & Shared Coin Balance Sync -->
     <script>
+        // Sync coin balance across pages using localStorage
+        if (!localStorage.getItem('unstableCoins')) {
+            localStorage.setItem('unstableCoins', '1250');
+        }
+        document.getElementById('coin-balance').innerText = Number(localStorage.getItem('unstableCoins')).toLocaleString();
+
         function toggleMenu(event) {
             event.stopPropagation();
             const menu = document.getElementById('dropdown-menu');
