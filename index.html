@@ -38,12 +38,17 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+        .dropdown-glass {
+            background: rgba(19, 17, 30, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between">
+<body class="min-h-screen flex flex-col items-center justify-between" onclick="closeDropdownOnClickOutside(event)">
 
     <!-- Top Header -->
-    <header class="w-full py-4 px-4 flex justify-between items-center max-w-md">
+    <header class="w-full py-4 px-4 flex justify-between items-center max-w-md relative">
         <div class="text-base font-black tracking-wider bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
             UNSTABLEMC
         </div>
@@ -53,10 +58,20 @@
                 <i class="fa-solid fa-coins text-yellow-400 text-[11px]"></i>
                 <span id="coin-balance">1,250</span>
             </a>
-            <!-- Marketplace Store Button (Replacing Discord) -->
-            <a href="marketplace.html" class="text-purple-400 hover:text-purple-300 text-xs font-semibold flex items-center gap-1 bg-purple-500/10 border border-purple-500/30 px-2.5 py-1 rounded-full">
-                <i class="fa-solid fa-store"></i> Store
-            </a>
+
+            <!-- Three Dots Menu Button -->
+            <div class="relative">
+                <button id="menu-btn" onclick="toggleMenu(event)" class="text-purple-300 hover:text-white bg-purple-500/10 border border-purple-500/30 w-8 h-8 rounded-full flex items-center justify-center transition">
+                    <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-36 dropdown-glass rounded-xl shadow-xl overflow-hidden z-50 flex flex-col py-1">
+                    <a href="marketplace.html" class="flex items-center gap-2 px-3.5 py-2 text-xs text-gray-200 hover:bg-purple-600/30 hover:text-white transition">
+                        <i class="fa-solid fa-store text-purple-400"></i> Store
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -199,8 +214,22 @@
         <p>&copy; 2026 UnstableMC. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Copy IP -->
+    <!-- JavaScript for Menu & Copy IP -->
     <script>
+        function toggleMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function closeDropdownOnClickOutside(event) {
+            const menu = document.getElementById('dropdown-menu');
+            const menuBtn = document.getElementById('menu-btn');
+            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        }
+
         function copyIP() {
             const ipText = document.getElementById('server-ip').innerText;
             navigator.clipboard.writeText(ipText).then(() => {
