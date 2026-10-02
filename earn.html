@@ -90,10 +90,10 @@
             <!-- Wheel Container -->
             <section class="relative w-72 h-72 flex items-center justify-center my-1">
                 <!-- Top Triangle Pointer -->
-                <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
+                <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_6px_rgba(234,179,8,0.8)]"></div>
                 
                 <!-- Canvas Wheel -->
-                <canvas id="wheelCanvas" width="300" height="300" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] bg-gray-900"></canvas>
+                <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_35px_rgba(0,0,0,0.8)] bg-gray-900"></canvas>
                 
                 <!-- Center Knob -->
                 <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)] pointer-events-none">
@@ -268,16 +268,27 @@
         function initWheel() {
             canvas = document.getElementById('wheelCanvas');
             if (!canvas) return;
+
             ctx = canvas.getContext('2d');
             numSlices = slices.length;
             arc = (2 * Math.PI) / numSlices;
-            radius = canvas.width / 2;
+
+            // --- High-DPI / Retina Clarity Scaling ---
+            const dpr = window.devicePixelRatio || 1;
+            const displaySize = 300; // CSS logical pixels
+            
+            canvas.width = displaySize * dpr;
+            canvas.height = displaySize * dpr;
+            
+            ctx.scale(dpr, dpr);
+            radius = displaySize / 2;
+
             drawWheel(currentAngle);
         }
 
         function drawWheel(angle = 0) {
             if (!ctx) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, radius * 2, radius * 2);
 
             ctx.save();
             ctx.translate(radius, radius);
@@ -287,6 +298,7 @@
                 const startAngle = i * arc;
                 const endAngle = (i + 1) * arc;
 
+                // Slice Background
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius - 10, startAngle, endAngle);
@@ -294,29 +306,31 @@
                 ctx.fillStyle = slices[i].color;
                 ctx.fill();
                 ctx.strokeStyle = '#1e1b4b';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 2.5;
                 ctx.stroke();
 
+                // Crisp Text Rendering
                 ctx.save();
                 ctx.rotate(startAngle + arc / 2);
                 ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 12px system-ui, -apple-system, sans-serif';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(slices[i].text, radius - 24, 4);
+                ctx.font = 'bold 13px system-ui, -apple-system, sans-serif';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+                ctx.shadowBlur = 5;
+                ctx.fillText(slices[i].text, radius - 26, 0);
                 ctx.restore();
             }
             ctx.restore();
 
-            // Outer Gold Ring
+            // Outer Gold Ring Border
             ctx.beginPath();
             ctx.arc(radius, radius, radius - 5, 0, 2 * Math.PI);
             ctx.lineWidth = 8;
             ctx.strokeStyle = '#eab308';
             ctx.stroke();
 
-            // Ring glowing dots
+            // Glowing Edge Dots
             const dotCount = 16;
             for (let i = 0; i < dotCount; i++) {
                 const dotAngle = (i * 2 * Math.PI) / dotCount;
@@ -326,13 +340,14 @@
                 ctx.arc(x, y, 3, 0, 2 * Math.PI);
                 ctx.fillStyle = '#fef08a';
                 ctx.shadowColor = '#facc15';
-                ctx.shadowBlur = 6;
+                ctx.shadowBlur = 8;
                 ctx.fill();
             }
         }
 
         initWheel();
         window.addEventListener('load', initWheel);
+        window.addEventListener('resize', initWheel);
 
         function spinWheel() {
             if (isSpinning) return;
