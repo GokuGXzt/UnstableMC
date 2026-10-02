@@ -91,7 +91,7 @@
         <section class="glass-card p-6 rounded-2xl flex flex-col items-center gap-6 border border-white/5">
             <div class="wheel-container">
                 <div class="wheel-pointer"></div>
-                <svg id="wheel" class="wheel" viewBox="0 0 100 100">
+                <svg id="wheel" class="wheel" viewBox="0 0 100 100" style="transform: rotate(0deg);">
                     <!-- Outer Border Ring -->
                     <circle cx="50" cy="50" r="49" fill="none" stroke="#eab308" stroke-width="2.5" />
 
@@ -193,10 +193,16 @@
             spinBtn.innerText = "SPINNING...";
             spinBtn.style.opacity = "0.7";
 
-            const randomSector = Math.floor(Math.random() * 8);
-            const degreesPerSector = 360 / 8;
-            const extraTurns = 360 * 6; 
-            const targetRotation = currentRotation + extraTurns + (randomSector * degreesPerSector) + (degreesPerSector / 2);
+            // 1. Pick winning index randomly first
+            const winningIndex = Math.floor(Math.random() * 8);
+            const wonCoins = rewards[winningIndex];
+
+            // 2. Calculate exact rotation to land precisely on this sector's center
+            const degreesPerSector = 360 / 8; // 45 degrees per slice
+            const sectorCenter = (winningIndex * degreesPerSector) + (degreesPerSector / 2);
+            
+            const extraTurns = 360 * 6; // 6 full spins
+            const targetRotation = currentRotation + extraTurns + ((360 - sectorCenter - (currentRotation % 360) + 360) % 360);
 
             currentRotation = targetRotation;
             const wheel = document.getElementById('wheel');
@@ -207,14 +213,12 @@
                 spinBtn.innerText = "SPIN AGAIN";
                 spinBtn.style.opacity = "1";
 
-                const normalizedDeg = (360 - (currentRotation % 360)) % 360;
-                const winningIndex = Math.floor((normalizedDeg + 22.5) / degreesPerSector) % 8;
-                const wonCoins = rewards[winningIndex];
-
+                // Update balance
                 currentBalance += wonCoins;
                 localStorage.setItem('unstableCoins', currentBalance);
                 document.getElementById('header-balance').innerText = currentBalance.toLocaleString();
 
+                // Show toast
                 const toast = document.getElementById('toast');
                 toast.innerText = `🎉 You won ${wonCoins} UnstableCoins!`;
                 toast.classList.remove('hidden');
