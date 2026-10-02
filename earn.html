@@ -3,99 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnstableMC - Earn</title>
+    <title>Earn Coins & Fortune Wheel | UnstableMC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         body {
-            background-color: #121212;
-            background-image: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8)), url('bg.jpg');
+            background: linear-gradient(rgba(11, 9, 20, 0.88), rgba(11, 9, 20, 0.88)), url('bg.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-        .container {
-            width: 100%;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        /* Balance Bar */
-        .balance-bar {
-            background-color: rgba(30, 30, 36, 0.9);
+        .glass-card {
+            background: rgba(19, 17, 30, 0.75);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(243, 156, 18, 0.3);
-            border-radius: 30px;
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .balance-bar span {
-            font-size: 14px;
-            color: #b0b0b0;
+        .glow-btn-yellow {
+            background: linear-gradient(135deg, #eab308, #ca8a04);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.4);
+            transition: all 0.3s ease;
         }
-        .balance-bar strong {
-            font-size: 16px;
-            color: #f39c12;
+        .glow-btn-yellow:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-        }
-        .header p {
-            font-size: 13px;
-            color: #d0d0d0;
-            line-height: 1.4;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-        }
-        
-        /* Fortune Wheel Section */
-        .wheel-card {
-            background-color: rgba(30, 30, 36, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 25px 20px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-        }
-        
         .wheel-container {
             position: relative;
             width: 280px;
             height: 280px;
-            margin: 15px 0 20px 0;
+            margin: 0 auto;
         }
-
-        /* Pointer Arrow - Positioned directly on top border */
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: transform 4s cubic-bezier(0.15, 0.90, 0.15, 1);
+            box-shadow: 0 0 30px rgba(234, 179, 8, 0.3);
+        }
         .wheel-pointer {
             position: absolute;
             top: -10px;
@@ -103,264 +49,181 @@
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 18px solid #e74c3c;
-            z-index: 30;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
-        }
-
-        /* Wheel with Border and Perfectly Aligned Conic Gradient Slices */
-        .wheel {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 8px solid #f39c12;
-            box-shadow: 0 0 20px rgba(243, 156, 18, 0.4), inset 0 0 10px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
-            transition: transform 4s cubic-bezier(0.15, 0.75, 0.12, 1);
-            background: conic-gradient(
-                #e74c3c 0deg 45deg,
-                #9b59b6 45deg 90deg,
-                #f1c40f 90deg 135deg,
-                #e67e22 135deg 180deg,
-                #e91e63 180deg 225deg,
-                #3498db 225deg 270deg,
-                #2ecc71 270deg 315deg,
-                #34495e 315deg 360deg
-            );
-        }
-
-        /* Center Pin */
-        .wheel-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 32px;
-            height: 32px;
-            background-color: #121212;
-            border: 4px solid #f39c12;
-            border-radius: 50%;
-            z-index: 10;
-        }
-
-        /* Wheel Numbers / Items with Perfect Alignment */
-        .wheel-item {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50%;
-            height: 40px;
-            text-align: right;
-            transform-origin: left center;
-            padding-right: 30px;
-            font-weight: bold;
-            font-size: 16px;
-            color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-            pointer-events: none;
-        }
-
-        .wheel-item span {
-            display: inline-block;
-        }
-
-        /* Right side items */
-        .item-1 { transform: translateY(-50%) rotate(22.5deg); }
-        .item-2 { transform: translateY(-50%) rotate(67.5deg); }
-        .item-3 { transform: translateY(-50%) rotate(112.5deg); }
-        .item-4 { transform: translateY(-50%) rotate(157.5deg); }
-
-        /* Left side items: Flipped 180deg to stay upright */
-        .item-5 { transform: translateY(-50%) rotate(202.5deg); }
-        .item-5 span { transform: rotate(180deg); }
-
-        .item-6 { transform: translateY(-50%) rotate(247.5deg); }
-        .item-6 span { transform: rotate(180deg); }
-
-        .item-7 { transform: translateY(-50%) rotate(292.5deg); }
-        .item-7 span { transform: rotate(180deg); }
-
-        .item-8 { transform: translateY(-50%) rotate(337.5deg); }
-        .item-8 span { transform: rotate(180deg); }
-
-        /* Result Popup Notification */
-        #resultMessage {
-            font-size: 14px;
-            font-weight: 600;
-            color: #2ecc71;
-            margin-bottom: 12px;
-            min-height: 20px;
-            text-align: center;
-        }
-
-        /* Spin Button */
-        .spin-btn {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            color: #121212;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
-            transition: transform 0.1s ease, filter 0.2s ease;
-        }
-        .spin-btn:active {
-            transform: scale(0.98);
-        }
-        .spin-btn:hover {
-            filter: brightness(1.1);
-        }
-        .spin-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Other Ways to Earn Section */
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            align-self: flex-start;
-            letter-spacing: 0.5px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-        }
-
-        .earn-card {
-            background-color: rgba(30, 30, 36, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 16px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        .earn-icon {
-            width: 44px;
-            height: 44px;
-            background-color: rgba(243, 156, 18, 0.15);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f39c12;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .earn-info h3 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .earn-info p {
-            font-size: 12px;
-            color: #b0b0b0;
-            line-height: 1.3;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 24px solid #ef4444;
+            z-index: 20;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <!-- Live Coin Balance Bar -->
-        <div class="balance-bar">
-            <span>Balance:</span>
-            <strong id="coinBalance">0 UnstableCoins</strong>
+<body class="min-h-screen flex flex-col items-center justify-between">
+
+    <!-- Top Header -->
+    <header class="w-full py-4 px-4 flex justify-between items-center max-w-md">
+        <a href="index.html" class="text-purple-400 hover:text-purple-300 text-xs font-semibold flex items-center gap-1.5 bg-purple-500/10 border border-purple-500/30 px-3 py-1.5 rounded-full">
+            <i class="fa-solid fa-arrow-left"></i> Home
+        </a>
+        <div class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)]">
+            <i class="fa-solid fa-coins text-yellow-400 text-[11px]"></i>
+            <span id="header-balance">1,250</span>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-6">
+
+        <!-- Page Header -->
+        <section class="text-center py-4 flex flex-col items-center">
+            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl mb-2 border border-yellow-500/30">
+                <i class="fa-solid fa-dharmachakra"></i>
+            </div>
+            <h1 class="text-2xl font-black tracking-tight">FORTUNE WHEEL</h1>
+            <p class="text-gray-400 text-xs mt-1">Spin the wheel every day to test your luck and earn free UnstableCoins!</p>
+        </section>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="hidden fixed top-5 bg-green-600 text-white text-xs px-4 py-2 rounded-full shadow-lg transition-all duration-300 z-50">
+            You won coins!
         </div>
 
-        <div class="header">
-            <h1>FORTUNE WHEEL</h1>
-            <p>Spin the wheel every day to test your luck and earn free UnstableCoins!</p>
-        </div>
-
-        <div class="wheel-card">
+        <!-- Wheel Section -->
+        <section class="glass-card p-6 rounded-2xl flex flex-col items-center gap-6 border border-white/5">
             <div class="wheel-container">
                 <div class="wheel-pointer"></div>
-                <div class="wheel" id="fortuneWheel">
-                    <div class="wheel-item item-1"><span>50</span></div>
-                    <div class="wheel-item item-2"><span>100</span></div>
-                    <div class="wheel-item item-3"><span>500</span></div>
-                    <div class="wheel-item item-4"><span>25</span></div>
-                    <div class="wheel-item item-5"><span>250</span></div>
-                    <div class="wheel-item item-6"><span>10</span></div>
-                    <div class="wheel-item item-7"><span>1000</span></div>
-                    <div class="wheel-item item-8"><span>75</span></div>
+                <svg id="wheel" class="wheel" viewBox="0 0 100 100">
+                    <!-- Outer Border Ring -->
+                    <circle cx="50" cy="50" r="49" fill="none" stroke="#eab308" stroke-width="2.5" />
+
+                    <!-- 8 Precision Slices (Clockwise from Top) -->
+                    <!-- 0: Top (25) -->
+                    <path d="M50,50 L50,5 A45,45 0 0,1 81.82,18.18 Z" fill="#0ea5e9"/>
+                    <text x="61.48" y="22.25" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">25</text>
+
+                    <!-- 1: Top-Right (250) -->
+                    <path d="M50,50 L81.82,18.18 A45,45 0 0,1 95,50 Z" fill="#16a34a"/>
+                    <text x="77.72" y="38.51" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">250</text>
+
+                    <!-- 2: Right (10) -->
+                    <path d="M50,50 L95,50 A45,45 0 0,1 81.82,81.82 Z" fill="#eab308"/>
+                    <text x="77.72" y="61.48" fill="#000" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">10</text>
+
+                    <!-- 3: Bottom-Right (1000) -->
+                    <path d="M50,50 L81.82,81.82 A45,45 0 0,1 50,95 Z" fill="#dc2626"/>
+                    <text x="61.48" y="77.72" fill="white" font-size="4.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">1000</text>
+
+                    <!-- 4: Bottom (75) -->
+                    <path d="M50,50 L50,95 A45,45 0 0,1 18.18,81.82 Z" fill="#9333ea"/>
+                    <text x="38.51" y="77.72" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">75</text>
+
+                    <!-- 5: Bottom-Left (50) -->
+                    <path d="M50,50 L18.18,81.82 A45,45 0 0,1 5,50 Z" fill="#f97316"/>
+                    <text x="22.25" y="61.48" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">50</text>
+
+                    <!-- 6: Left (100) -->
+                    <path d="M50,50 L5,50 A45,45 0 0,1 18.18,18.18 Z" fill="#ea580c"/>
+                    <text x="22.25" y="38.51" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">100</text>
+
+                    <!-- 7: Top-Left (500) -->
+                    <path d="M50,50 L18.18,18.18 A45,45 0 0,1 50,5 Z" fill="#db2777"/>
+                    <text x="38.51" y="22.25" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">500</text>
+
+                    <!-- Center Cap -->
+                    <circle cx="50" cy="50" r="6" fill="#111" stroke="#eab308" stroke-width="2"/>
+                </svg>
+            </div>
+
+            <!-- Spin Button -->
+            <button id="spin-btn" onclick="spinWheel()" class="w-full glow-btn-yellow text-black font-extrabold py-3.5 rounded-xl text-center text-sm uppercase tracking-wider">
+                SPIN THE WHEEL (FREE)
+            </button>
+        </section>
+
+        <!-- Other Ways to Earn -->
+        <section class="flex flex-col gap-4">
+            <h2 class="text-base font-black text-white text-center">OTHER WAYS TO EARN</h2>
+
+            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                <div class="w-14 h-14 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-xl flex-shrink-0">
+                    <i class="fa-solid fa-check-to-slot"></i>
                 </div>
-                <div class="wheel-center"></div>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Vote for Server</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Vote on Minecraft lists daily to receive 150 UnstableCoins each.</p>
+                </div>
             </div>
 
-            <div id="resultMessage"></div>
-            <button class="spin-btn" id="spinBtn">SPIN THE WHEEL (FREE)</button>
-        </div>
-
-        <div class="section-title">OTHER WAYS TO EARN</div>
-        
-        <div class="earn-card">
-            <div class="earn-icon">⭐</div>
-            <div class="earn-info">
-                <h3>Vote for Server</h3>
-                <p>Vote on Minecraft lists daily to receive 150 UnstableCoins each.</p>
+            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
+                <div class="w-14 h-14 rounded-lg bg-purple-600/20 flex items-center justify-center text-purple-400 text-xl flex-shrink-0">
+                    <i class="fa-brands fa-discord"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Discord Activity</h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Participate in community events and chat giveaways on Discord.</p>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs text-gray-500 border-t border-white/5">
+        <p>&copy; 2026 UnstableMC. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Wheel Logic -->
     <script>
-        let balance = parseInt(localStorage.getItem('unstableCoins')) || 0;
-        const balanceEl = document.getElementById('coinBalance');
-        balanceEl.textContent = `${balance} UnstableCoins`;
+        if (!localStorage.getItem('unstableCoins')) {
+            localStorage.setItem('unstableCoins', '1250');
+        }
+        let currentBalance = Number(localStorage.getItem('unstableCoins'));
+        document.getElementById('header-balance').innerText = currentBalance.toLocaleString();
 
-        const spinBtn = document.getElementById('spinBtn');
-        const wheel = document.getElementById('fortuneWheel');
-        const resultMessage = document.getElementById('resultMessage');
-        let isSpinning = false;
-
-        // Exactly synchronized with visual wheel slices clockwise from top (0°)
-        const prizes = [50, 100, 500, 25, 250, 10, 1000, 75];
         let currentRotation = 0;
+        let isSpinning = false;
+        
+        // Exactly matches clockwise order starting from top slice (0 to 7)
+        const rewards = [25, 250, 10, 1000, 75, 50, 100, 500];
 
-        spinBtn.addEventListener('click', () => {
+        function spinWheel() {
             if (isSpinning) return;
             isSpinning = true;
-            spinBtn.disabled = true;
-            resultMessage.textContent = "Spinning...";
 
-            // Pick a winning slice randomly (0 to 7)
-            const winningIndex = Math.floor(Math.random() * prizes.length);
-            const wonCoins = prizes[winningIndex];
+            const spinBtn = document.getElementById('spin-btn');
+            spinBtn.innerText = "SPINNING...";
+            spinBtn.style.opacity = "0.7";
 
-            // Calculate exact center angle of the chosen slice
-            const sliceCenterAngle = 22.5 + (winningIndex * 45);
+            const randomSector = Math.floor(Math.random() * 8);
+            const degreesPerSector = 360 / 8;
+            const extraTurns = 360 * 6; 
+            const targetRotation = currentRotation + extraTurns + (randomSector * degreesPerSector) + (degreesPerSector / 2);
 
-            // Calculate target rotation to land dead-center under the top pointer
-            const fullSpins = 5;
-            const targetDegree = currentRotation + (fullSpins * 360) + (((360 - sliceCenterAngle) - (currentRotation % 360)) + 360) % 360;
-            
-            currentRotation = targetDegree;
-            wheel.style.transform = `rotate(${targetDegree}deg)`;
+            currentRotation = targetRotation;
+            const wheel = document.getElementById('wheel');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
 
             setTimeout(() => {
-                // Update balance and save to localStorage
-                balance += wonCoins;
-                localStorage.setItem('unstableCoins', balance);
-                balanceEl.textContent = `${balance} UnstableCoins`;
-
-                // Show correct result message
-                resultMessage.textContent = `🎉 You won ${wonCoins} UnstableCoins!`;
                 isSpinning = false;
-                spinBtn.disabled = false;
+                spinBtn.innerText = "SPIN AGAIN";
+                spinBtn.style.opacity = "1";
+
+                const normalizedDeg = (360 - (currentRotation % 360)) % 360;
+                const winningIndex = Math.floor((normalizedDeg + 22.5) / degreesPerSector) % 8;
+                const wonCoins = rewards[winningIndex];
+
+                currentBalance += wonCoins;
+                localStorage.setItem('unstableCoins', currentBalance);
+                document.getElementById('header-balance').innerText = currentBalance.toLocaleString();
+
+                const toast = document.getElementById('toast');
+                toast.innerText = `🎉 You won ${wonCoins} UnstableCoins!`;
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+
             }, 4000);
-        });
+        }
     </script>
 </body>
-                                                                      </html>
-                                                                      
+</html>
