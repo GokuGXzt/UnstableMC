@@ -66,7 +66,7 @@
         </a>
         <div class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)]">
             <i class="fa-solid fa-coins text-yellow-400 text-[11px]"></i>
-            <span id="header-balance">1,250</span>
+            <span id="header-balance">1,000</span>
         </div>
     </header>
 
@@ -96,35 +96,27 @@
                     <circle cx="50" cy="50" r="49" fill="none" stroke="#eab308" stroke-width="2.5" />
 
                     <!-- 8 Precision Slices (Clockwise from Top) -->
-                    <!-- 0: Top (25) -->
                     <path d="M50,50 L50,5 A45,45 0 0,1 81.82,18.18 Z" fill="#0ea5e9"/>
                     <text x="61.48" y="22.25" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">25</text>
 
-                    <!-- 1: Top-Right (250) -->
                     <path d="M50,50 L81.82,18.18 A45,45 0 0,1 95,50 Z" fill="#16a34a"/>
                     <text x="77.72" y="38.51" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">250</text>
 
-                    <!-- 2: Right (10) -->
                     <path d="M50,50 L95,50 A45,45 0 0,1 81.82,81.82 Z" fill="#eab308"/>
                     <text x="77.72" y="61.48" fill="#000" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">10</text>
 
-                    <!-- 3: Bottom-Right (1000) -->
                     <path d="M50,50 L81.82,81.82 A45,45 0 0,1 50,95 Z" fill="#dc2626"/>
                     <text x="61.48" y="77.72" fill="white" font-size="4.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">1000</text>
 
-                    <!-- 4: Bottom (75) -->
                     <path d="M50,50 L50,95 A45,45 0 0,1 18.18,81.82 Z" fill="#9333ea"/>
                     <text x="38.51" y="77.72" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">75</text>
 
-                    <!-- 5: Bottom-Left (50) -->
                     <path d="M50,50 L18.18,81.82 A45,45 0 0,1 5,50 Z" fill="#f97316"/>
                     <text x="22.25" y="61.48" fill="white" font-size="5.5" font-weight="900" text-anchor="middle" dominant-baseline="middle">50</text>
 
-                    <!-- 6: Left (100) -->
                     <path d="M50,50 L5,50 A45,45 0 0,1 18.18,18.18 Z" fill="#ea580c"/>
                     <text x="22.25" y="38.51" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">100</text>
 
-                    <!-- 7: Top-Left (500) -->
                     <path d="M50,50 L18.18,18.18 A45,45 0 0,1 50,5 Z" fill="#db2777"/>
                     <text x="38.51" y="22.25" fill="white" font-size="5" font-weight="900" text-anchor="middle" dominant-baseline="middle">500</text>
 
@@ -168,21 +160,31 @@
 
     <!-- Footer -->
     <footer class="w-full py-6 text-center text-xs text-gray-500 border-t border-white/5">
-        <p>&copy; 2026 UnstableMC. All rights reserved. <span class="text-purple-400 font-semibold">(v3.2 - Wheel Fixed)</span></p>
+        <p>&copy; 2026 UnstableMC. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Wheel Logic -->
+    <!-- JavaScript for Unified Coin Management -->
     <script>
-        if (!localStorage.getItem('unstableCoins')) {
-            localStorage.setItem('unstableCoins', '1250');
+        const COIN_KEY = 'unstableCoins';
+
+        function getBalance() {
+            if (!localStorage.getItem(COIN_KEY)) {
+                localStorage.setItem(COIN_KEY, '1000');
+            }
+            return Number(localStorage.getItem(COIN_KEY));
         }
-        let currentBalance = Number(localStorage.getItem('unstableCoins'));
-        document.getElementById('header-balance').innerText = currentBalance.toLocaleString();
+
+        function updateDisplay() {
+            const balance = getBalance();
+            const el = document.getElementById('header-balance');
+            if (el) el.innerText = balance.toLocaleString();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateDisplay);
+        updateDisplay();
 
         let currentRotation = 0;
         let isSpinning = false;
-        
-        // Exactly maps clockwise order starting from top slice (0 to 7)
         const rewards = [25, 250, 10, 1000, 75, 50, 100, 500];
 
         function spinWheel() {
@@ -193,17 +195,13 @@
             spinBtn.innerText = "SPINNING...";
             spinBtn.style.opacity = "0.7";
 
-            // 1. Pick winning index randomly first
             const winningIndex = Math.floor(Math.random() * 8);
             const wonCoins = rewards[winningIndex];
 
-            // 2. Calculate exact rotation to land precisely on this sector's center
-            const degreesPerSector = 360 / 8; // 45 degrees
+            const degreesPerSector = 360 / 8; 
             const sectorCenter = (winningIndex * degreesPerSector) + (degreesPerSector / 2);
             
-            const extraTurns = 360 * 5; // 5 full spins
-            
-            // Foolproof angle calculation
+            const extraTurns = 360 * 5; 
             const currentMod = currentRotation % 360;
             const targetMod = (360 - sectorCenter) % 360;
             let diff = targetMod - currentMod;
@@ -219,12 +217,11 @@
                 spinBtn.innerText = "SPIN AGAIN";
                 spinBtn.style.opacity = "1";
 
-                // Update balance
+                let currentBalance = getBalance();
                 currentBalance += wonCoins;
-                localStorage.setItem('unstableCoins', currentBalance);
-                document.getElementById('header-balance').innerText = currentBalance.toLocaleString();
+                localStorage.setItem(COIN_KEY, currentBalance.toString());
+                updateDisplay();
 
-                // Show toast
                 const toast = document.getElementById('toast');
                 toast.innerText = `🎉 You won ${wonCoins} UnstableCoins!`;
                 toast.classList.remove('hidden');
