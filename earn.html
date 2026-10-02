@@ -95,7 +95,7 @@
             margin: 15px 0 20px 0;
         }
 
-        /* Pointer Arrow - Positioned directly on top border of wheel container */
+        /* Pointer Arrow - Positioned directly on top border */
         .wheel-pointer {
             position: absolute;
             top: -10px;
@@ -110,7 +110,7 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
         }
 
-        /* Wheel with Border and Conic Gradient Slices */
+        /* Wheel with Border and Perfectly Aligned Conic Gradient Slices */
         .wheel {
             width: 100%;
             height: 100%;
@@ -121,14 +121,14 @@
             overflow: hidden;
             transition: transform 4s cubic-bezier(0.15, 0.75, 0.12, 1);
             background: conic-gradient(
-                #f1c40f 0deg 45deg,
-                #e67e22 45deg 90deg,
-                #e91e63 90deg 135deg,
-                #3498db 135deg 180deg,
-                #2ecc71 180deg 225deg,
-                #34495e 225deg 270deg,
-                #e74c3c 270deg 315deg,
-                #9b59b6 315deg 360deg
+                #e74c3c 0deg 45deg,
+                #9b59b6 45deg 90deg,
+                #f1c40f 90deg 135deg,
+                #e67e22 135deg 180deg,
+                #e91e63 180deg 225deg,
+                #3498db 225deg 270deg,
+                #2ecc71 270deg 315deg,
+                #34495e 315deg 360deg
             );
         }
 
@@ -146,7 +146,7 @@
             z-index: 10;
         }
 
-        /* Wheel Numbers / Items with Orientation Fixes */
+        /* Wheel Numbers / Items with Perfect Alignment */
         .wheel-item {
             position: absolute;
             top: 50%;
@@ -167,13 +167,13 @@
             display: inline-block;
         }
 
-        /* Right side items (Upright by default) */
+        /* Right side items */
         .item-1 { transform: translateY(-50%) rotate(22.5deg); }
         .item-2 { transform: translateY(-50%) rotate(67.5deg); }
         .item-3 { transform: translateY(-50%) rotate(112.5deg); }
         .item-4 { transform: translateY(-50%) rotate(157.5deg); }
 
-        /* Left side items: Flipped 180deg to prevent upside-down text */
+        /* Left side items: Flipped 180deg to stay upright */
         .item-5 { transform: translateY(-50%) rotate(202.5deg); }
         .item-5 span { transform: rotate(180deg); }
 
@@ -287,14 +287,14 @@
             <div class="wheel-container">
                 <div class="wheel-pointer"></div>
                 <div class="wheel" id="fortuneWheel">
-                    <div class="wheel-item item-1"><span>250</span></div>
-                    <div class="wheel-item item-2"><span>10</span></div>
-                    <div class="wheel-item item-3"><span>1000</span></div>
-                    <div class="wheel-item item-4"><span>75</span></div>
-                    <div class="wheel-item item-5"><span>50</span></div>
-                    <div class="wheel-item item-6"><span>100</span></div>
-                    <div class="wheel-item item-7"><span>500</span></div>
-                    <div class="wheel-item item-8"><span>25</span></div>
+                    <div class="wheel-item item-1"><span>50</span></div>
+                    <div class="wheel-item item-2"><span>100</span></div>
+                    <div class="wheel-item item-3"><span>500</span></div>
+                    <div class="wheel-item item-4"><span>25</span></div>
+                    <div class="wheel-item item-5"><span>250</span></div>
+                    <div class="wheel-item item-6"><span>10</span></div>
+                    <div class="wheel-item item-7"><span>1000</span></div>
+                    <div class="wheel-item item-8"><span>75</span></div>
                 </div>
                 <div class="wheel-center"></div>
             </div>
@@ -324,8 +324,8 @@
         const resultMessage = document.getElementById('resultMessage');
         let isSpinning = false;
 
-        // Perfectly synchronized with visual wheel slices clockwise from top (0°)
-        const prizes = [250, 10, 1000, 75, 50, 100, 500, 25];
+        // Exactly synchronized with visual wheel slices clockwise from top (0°)
+        const prizes = [50, 100, 500, 25, 250, 10, 1000, 75];
         let currentRotation = 0;
 
         spinBtn.addEventListener('click', () => {
@@ -362,4 +362,5 @@
         });
     </script>
 </body>
-</html>
+                                                                      </html>
+                                                                      
