@@ -31,6 +31,30 @@
             cursor: not-allowed;
             box-shadow: none;
         }
+        .glow-btn-purple {
+            background: linear-gradient(135deg, #a855f7, #7e22ce);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            transition: all 0.3s ease;
+        }
+        .glow-btn-purple:active { transform: scale(0.97); }
+        .glow-btn-purple:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        /* Scratch Card Gradients */
+        .card-bronze {
+            background: linear-gradient(135deg, #78350f, #451a03);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .card-silver {
+            background: linear-gradient(135deg, #475569, #1e293b);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        .card-gold {
+            background: linear-gradient(135deg, #ca8a04, #854d0e, #a16207);
+            border: 1px solid rgba(253, 224, 71, 0.4);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between">
@@ -65,59 +89,124 @@
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-5 items-center text-center">
+    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-6 items-center text-center">
 
         <!-- Page Header -->
         <section class="py-1 flex flex-col items-center">
-            <div class="w-12 h-12 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl mb-2 border border-yellow-500/30">
-                <i class="fa-solid fa-dharmachakra"></i>
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-2 border border-purple-500/30">
+                <i class="fa-solid fa-gift"></i>
             </div>
-            <h1 class="text-2xl font-black tracking-tight">FORTUNE WHEEL</h1>
-            <p class="text-gray-400 text-xs mt-1">Spin up to 10 times daily to win UnstableCoins!</p>
+            <h1 class="text-2xl font-black tracking-tight">EARN UNSTABLECOINS</h1>
+            <p class="text-gray-400 text-xs mt-1">Spin the wheel or scratch cards to win big!</p>
         </section>
 
-        <!-- Spins Left Counter Badge -->
-        <div class="bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs text-gray-300 flex items-center gap-2">
-            <i class="fa-solid fa-rotate text-yellow-400"></i>
-            <span>Spins Available: <strong id="spins-left-count" class="text-yellow-400 font-black">10</strong> / 10</span>
-        </div>
-
-        <!-- Wheel Container -->
-        <section class="relative w-72 h-72 flex items-center justify-center my-1">
-            <!-- Top Triangle Pointer -->
-            <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
-            
-            <!-- Canvas Wheel -->
-            <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)]"></canvas>
-            
-            <!-- Center Knob -->
-            <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)]">
-                <div class="w-6 h-6 rotate-45 bg-amber-700/80 border border-amber-300 flex items-center justify-center">
-                    <div class="w-2 h-2 bg-yellow-200"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Spin Action Button & Cooldown Timer -->
-        <div class="w-full flex flex-col gap-2">
-            <button id="spin-btn" onclick="spinWheel()" class="w-full glow-btn-yellow text-black font-black py-4 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                <i class="fa-solid fa-play"></i> SPIN THE WHEEL
+        <!-- Tabs Navigation -->
+        <div class="w-full grid grid-cols-2 gap-2 bg-black/40 p-1.5 rounded-2xl border border-white/5">
+            <button onclick="switchTab('wheel')" id="tab-wheel" class="py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition bg-purple-600 text-white shadow-lg">
+                <i class="fa-solid fa-dharmachakra mr-1"></i> Spin Wheel
             </button>
-            <p id="spin-timer" class="text-xs text-amber-400 font-semibold hidden"></p>
+            <button onclick="switchTab('scratch')" id="tab-scratch" class="py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition text-gray-400 hover:text-white">
+                <i class="fa-solid fa-ticket mr-1"></i> Scratch Cards
+            </button>
         </div>
 
-        <!-- Info Card -->
-        <section class="glass-card w-full p-4 rounded-2xl flex flex-col gap-2 text-left border border-white/5 text-xs text-gray-300">
-            <h2 class="font-black text-yellow-400 uppercase tracking-wider mb-1">Wheel Rules</h2>
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-circle-check text-green-400 text-[10px]"></i>
-                <span>You get 10 free spins every 24 hours.</span>
+        <!-- TAB 1: SPIN WHEEL -->
+        <div id="section-wheel" class="w-full flex flex-col gap-5 items-center">
+            <!-- Spins Left Counter Badge -->
+            <div class="bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs text-gray-300 flex items-center gap-2">
+                <i class="fa-solid fa-rotate text-yellow-400"></i>
+                <span>Spins Available: <strong id="spins-left-count" class="text-yellow-400 font-black">10</strong> / 10</span>
             </div>
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-circle-check text-green-400 text-[10px]"></i>
-                <span>Prizes range from 5 to 2,000 UnstableCoins instantly.</span>
+
+            <!-- Wheel Container -->
+            <section class="relative w-72 h-72 flex items-center justify-center my-1">
+                <!-- Top Triangle Pointer -->
+                <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
+                
+                <!-- Canvas Wheel -->
+                <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)]"></canvas>
+                
+                <!-- Center Knob -->
+                <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)]">
+                    <div class="w-6 h-6 rotate-45 bg-amber-700/80 border border-amber-300 flex items-center justify-center">
+                        <div class="w-2 h-2 bg-yellow-200"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spin Action Button & Cooldown Timer -->
+            <div class="w-full flex flex-col gap-2">
+                <button id="spin-btn" onclick="spinWheel()" class="w-full glow-btn-yellow text-black font-black py-4 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i> SPIN THE WHEEL
+                </button>
+                <p id="spin-timer" class="text-xs text-amber-400 font-semibold hidden"></p>
             </div>
-        </section>
+        </div>
+
+        <!-- TAB 2: SCRATCH CARDS -->
+        <div id="section-scratch" class="w-full hidden flex-col gap-4">
+            <p class="text-xs text-gray-400 text-left px-1">Purchase a scratch card to test your luck and reveal instant rewards!</p>
+
+            <!-- Bronze Card -->
+            <div class="card-bronze w-full p-5 rounded-2xl flex flex-col gap-3 text-left shadow-xl relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center gap-1.5 text-amber-300 font-black text-sm tracking-wider">
+                            <i class="fa-solid fa-shield"></i> BRONZE
+                        </div>
+                        <div class="flex items-center gap-1.5 text-white font-black text-lg mt-1">
+                            <i class="fa-solid fa-coins text-yellow-400 text-sm"></i> 25 <span class="text-xs font-normal text-gray-300">cost</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-full text-amber-300 font-bold border border-amber-500/20">Win up to 500</span>
+                    </div>
+                </div>
+                <button onclick="buyScratchCard('bronze', 25, 500)" class="w-full glow-btn-purple text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                    Buy card
+                </button>
+            </div>
+
+            <!-- Silver Card -->
+            <div class="card-silver w-full p-5 rounded-2xl flex flex-col gap-3 text-left shadow-xl relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center gap-1.5 text-slate-200 font-black text-sm tracking-wider">
+                            <i class="fa-solid fa-shield-halved"></i> SILVER
+                        </div>
+                        <div class="flex items-center gap-1.5 text-white font-black text-lg mt-1">
+                            <i class="fa-solid fa-coins text-yellow-400 text-sm"></i> 100 <span class="text-xs font-normal text-gray-300">cost</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-full text-slate-300 font-bold border border-slate-400/20">Win up to 2,500</span>
+                    </div>
+                </div>
+                <button onclick="buyScratchCard('silver', 100, 2500)" class="w-full glow-btn-purple text-white font-black py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                    Buy card
+                </button>
+            </div>
+
+            <!-- Gold Card -->
+            <div class="card-gold w-full p-5 rounded-2xl flex flex-col gap-3 text-left shadow-xl relative overflow-hidden">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center gap-1.5 text-yellow-100 font-black text-sm tracking-wider">
+                            <i class="fa-solid fa-crown"></i> GOLD
+                        </div>
+                        <div class="flex items-center gap-1.5 text-white font-black text-lg mt-1">
+                            <i class="fa-solid fa-coins text-yellow-300 text-sm"></i> 250 <span class="text-xs font-normal text-yellow-100">cost</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] bg-black/40 px-2.5 py-1 rounded-full text-yellow-200 font-bold border border-yellow-300/30">Win up to 10,000</span>
+                    </div>
+                </div>
+                <button onclick="buyScratchCard('gold', 250, 10000)" class="w-full glow-btn-yellow text-black font-black py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2">
+                    Buy card
+                </button>
+            </div>
+        </div>
 
     </main>
 
@@ -126,7 +215,7 @@
         <p>&copy; 2026 UnstableMC. All rights reserved.</p>
     </footer>
 
-    <!-- Result / Win Modal -->
+    <!-- Result / Win Modal (Wheel) -->
     <div id="win-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="glass-card p-6 rounded-2xl max-w-xs w-full text-center flex flex-col gap-4 border border-yellow-500/30 shadow-[0_0_30px_rgba(234,179,8,0.3)]">
             <div class="w-16 h-16 mx-auto rounded-full bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-3xl border border-yellow-500/40">
@@ -138,6 +227,35 @@
             </div>
             <button onclick="closeModal()" class="w-full glow-btn-yellow text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider">
                 Claim Reward
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRATCH CARD INTERACTIVE MODAL -->
+    <div id="scratch-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card p-5 rounded-2xl max-w-sm w-full text-center flex flex-col gap-4 border border-purple-500/40 shadow-[0_0_40px_rgba(168,85,247,0.3)]">
+            <div class="flex justify-between items-center">
+                <h3 id="scratch-title" class="text-sm font-black text-yellow-400 uppercase tracking-wider">Bronze Scratch Card</h3>
+                <button onclick="closeScratchModal()" class="text-gray-400 hover:text-white text-xs px-2 py-1 bg-white/5 rounded-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p class="text-[11px] text-gray-300">Scratch the foil below with your mouse or finger to reveal your prize!</p>
+            
+            <!-- Scratch Canvas Area -->
+            <div class="relative w-full h-36 rounded-xl overflow-hidden border border-white/10 flex items-center justify-center bg-gray-900 shadow-inner">
+                <!-- Prize Underneath -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-purple-950 to-indigo-950">
+                    <i class="fa-solid fa-trophy text-yellow-400 text-2xl mb-1"></i>
+                    <span class="text-xs text-gray-400">You Won:</span>
+                    <span id="scratch-prize-text" class="text-xl font-black text-yellow-400">0 Coins</span>
+                </div>
+                <!-- Scratch Foil Canvas -->
+                <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full cursor-pointer"></canvas>
+            </div>
+
+            <button id="claim-scratch-btn" onclick="claimScratchPrize()" disabled class="w-full glow-btn-yellow text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider opacity-50 cursor-not-allowed">
+                Scratch to Reveal
             </button>
         </div>
     </div>
@@ -169,6 +287,25 @@
             if (el) el.innerText = balance.toLocaleString();
         }
 
+        function switchTab(tab) {
+            const wheelSec = document.getElementById('section-wheel');
+            const scratchSec = document.getElementById('section-scratch');
+            const tabWheel = document.getElementById('tab-wheel');
+            const tabScratch = document.getElementById('tab-scratch');
+
+            if (tab === 'wheel') {
+                wheelSec.classList.remove('hidden');
+                scratchSec.classList.add('hidden');
+                tabWheel.className = 'py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition bg-purple-600 text-white shadow-lg';
+                tabScratch.className = 'py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition text-gray-400 hover:text-white';
+            } else {
+                wheelSec.classList.add('hidden');
+                scratchSec.classList.remove('hidden');
+                tabScratch.className = 'py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition bg-purple-600 text-white shadow-lg';
+                tabWheel.className = 'py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition text-gray-400 hover:text-white';
+            }
+        }
+
         // Daily Spins Check & Reset Logic
         function checkAndResetSpins() {
             const now = Date.now();
@@ -181,7 +318,6 @@
                 return MAX_SPINS;
             }
 
-            // Check if 24 hours have passed
             if (now - Number(lastReset) >= COOLDOWN_MS) {
                 localStorage.setItem(RESET_KEY, now);
                 localStorage.setItem(SPINS_KEY, MAX_SPINS);
@@ -219,7 +355,6 @@
                         timerEl.classList.remove('hidden');
                     }
                 } else {
-                    // Time elapsed, auto-reset
                     checkAndResetSpins();
                     updateSpinsUI();
                 }
@@ -229,7 +364,6 @@
             }
         }
 
-        // Run interval for countdown clock
         setInterval(updateSpinsUI, 1000);
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -249,174 +383,3 @@
         });
 
         // Wheel Configuration
-        const slices = [
-            { text: '50', color: '#ec4899', value: 50 },
-            { text: '2000', color: '#facc15', value: 2000 },
-            { text: '5', color: '#06b6d4', value: 5 },
-            { text: '15', color: '#6366f1', value: 15 },
-            { text: '100', color: '#f59e0b', value: 100 },
-            { text: '10', color: '#38bdf8', value: 10 },
-            { text: '30', color: '#a855f7', value: 30 },
-            { text: '5', color: '#06b6d4', value: 5 },
-            { text: '250', color: '#f97316', value: 250 },
-            { text: '15', color: '#818cf8', value: 15 },
-            { text: '10', color: '#38bdf8', value: 10 },
-            { text: '500', color: '#ef4444', value: 500 },
-            { text: '5', color: '#10b981', value: 5 },
-            { text: '20', color: '#a855f7', value: 20 },
-            { text: '75', color: '#f43f5e', value: 75 },
-            { text: '10', color: '#38bdf8', value: 10 },
-            { text: '850', color: '#dc2626', value: 850 },
-            { text: '5', color: '#06b6d4', value: 5 },
-            { text: '30', color: '#c084fc', value: 30 },
-            { text: '20', color: '#8b5cf6', value: 20 }
-        ];
-
-        const canvas = document.getElementById('wheelCanvas');
-        const ctx = canvas.getContext('2d');
-        const numSlices = slices.length;
-        const arc = (2 * Math.PI) / numSlices;
-        let currentAngle = 0;
-        let isSpinning = false;
-        let wonCoinValue = 0;
-
-        // Setup HiDPI / Retina Canvas Clarity
-        const dpr = window.devicePixelRatio || 1;
-        const size = 300;
-        canvas.width = size * dpr;
-        canvas.height = size * dpr;
-        ctx.scale(dpr, dpr);
-        const radius = size / 2;
-
-        function drawWheel(angle = 0) {
-            ctx.clearRect(0, 0, size, size);
-
-            ctx.save();
-            ctx.translate(radius, radius);
-            ctx.rotate(angle);
-
-            // Draw Slices
-            for (let i = 0; i < numSlices; i++) {
-                const startAngle = i * arc;
-                const endAngle = (i + 1) * arc;
-
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.arc(0, 0, radius - 10, startAngle, endAngle);
-                ctx.fillStyle = slices[i].color;
-                ctx.fill();
-                ctx.strokeStyle = '#1e1b4b';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Draw Text
-                ctx.save();
-                ctx.rotate(startAngle + arc / 2);
-                ctx.textAlign = 'right';
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 13px system-ui, -apple-system, sans-serif';
-                ctx.shadowColor = 'rgba(0,0,0,0.8)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(slices[i].text, radius - 26, 4);
-                ctx.restore();
-            }
-            ctx.restore();
-
-            // Draw Golden Outer Rim
-            ctx.beginPath();
-            ctx.arc(radius, radius, radius - 5, 0, 2 * Math.PI);
-            ctx.lineWidth = 10;
-            ctx.strokeStyle = '#eab308';
-            ctx.stroke();
-
-            // Draw Glowing Dots on Rim
-            const dotCount = 16;
-            for (let i = 0; i < dotCount; i++) {
-                const dotAngle = (i * 2 * Math.PI) / dotCount;
-                const x = radius + (radius - 5) * Math.cos(dotAngle);
-                const y = radius + (radius - 5) * Math.sin(dotAngle);
-                ctx.beginPath();
-                ctx.arc(x, y, 3.5, 0, 2 * Math.PI);
-                ctx.fillStyle = '#fef08a';
-                ctx.shadowColor = '#facc15';
-                ctx.shadowBlur = 8;
-                ctx.fill();
-            }
-        }
-
-        drawWheel(currentAngle);
-
-        function spinWheel() {
-            if (isSpinning) return;
-            
-            let spins = checkAndResetSpins();
-            if (spins <= 0) {
-                updateSpinsUI();
-                return;
-            }
-
-            // Deduct 1 spin
-            spins--;
-            localStorage.setItem(SPINS_KEY, spins);
-            updateSpinsUI();
-
-            isSpinning = true;
-            document.getElementById('spin-btn').disabled = true;
-
-            // Pick a random winning slice index
-            const winningIndex = Math.floor(Math.random() * numSlices);
-            wonCoinValue = slices[winningIndex].value;
-
-            // Calculate precise target angle so the winning slice lands dead center under top pointer
-            const sliceCenter = winningIndex * arc + arc / 2;
-            let desiredFinalAngle = (3 * Math.PI / 2) - sliceCenter;
-
-            // Add 6 to 8 full rotations forward for animation suspense
-            const extraSpins = (6 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
-            desiredFinalAngle += extraSpins;
-
-            while (desiredFinalAngle < currentAngle + (5 * 2 * Math.PI)) {
-                desiredFinalAngle += 2 * Math.PI;
-            }
-
-            const startAngle = currentAngle;
-            const totalRotation = desiredFinalAngle - startAngle;
-            const duration = 4000; // 4 seconds
-            let startTime = null;
-
-            function animateSpin(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                
-                // Ease-out cubic deceleration
-                const easeOut = 1 - Math.pow(1 - progress, 3);
-                currentAngle = startAngle + totalRotation * easeOut;
-
-                drawWheel(currentAngle);
-
-                if (progress < 1) {
-                    requestAnimationFrame(animateSpin);
-                } else {
-                    isSpinning = false;
-                    currentAngle = desiredFinalAngle % (2 * Math.PI);
-                    drawWheel(currentAngle);
-                    
-                    // Show win modal
-                    document.getElementById('won-amount').innerText = wonCoinValue.toLocaleString();
-                    document.getElementById('win-modal').classList.remove('hidden');
-                }
-            }
-
-            requestAnimationFrame(animateSpin);
-        }
-
-        function closeModal() {
-            document.getElementById('win-modal').classList.add('hidden');
-            const newBalance = getBalance() + wonCoinValue;
-            setBalance(newBalance);
-            updateSpinsUI();
-        }
-    </script>
-</body>
-</html>
