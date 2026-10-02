@@ -92,7 +92,22 @@
             position: relative;
             width: 280px;
             height: 280px;
-            margin: 20px 0 20px 0;
+            margin: 15px 0 20px 0;
+        }
+
+        /* Pointer Arrow - Positioned directly on top border */
+        .wheel-pointer {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 18px solid #e74c3c;
+            z-index: 30;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
         }
 
         /* Wheel with Border and Conic Gradient Slices */
@@ -131,21 +146,6 @@
             z-index: 10;
         }
 
-        /* Pointer Arrow */
-        .wheel-pointer {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 22px solid #e74c3c;
-            z-index: 20;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        }
-
         /* Wheel Numbers / Items with Orientation Fixes */
         .wheel-item {
             position: absolute;
@@ -155,7 +155,7 @@
             height: 40px;
             text-align: right;
             transform-origin: left center;
-            padding-right: 25px;
+            padding-right: 30px;
             font-weight: bold;
             font-size: 16px;
             color: #ffffff;
@@ -315,7 +315,6 @@
     </div>
 
     <script>
-        // Initialize balance from localStorage
         let balance = parseInt(localStorage.getItem('unstableCoins')) || 0;
         const balanceEl = document.getElementById('coinBalance');
         balanceEl.textContent = `${balance} UnstableCoins`;
@@ -325,7 +324,7 @@
         const resultMessage = document.getElementById('resultMessage');
         let isSpinning = false;
 
-        // Prizes corresponding to each 45-degree slice clockwise from top
+        // Prizes in order matching the slices clockwise from top
         const prizes = [1000, 75, 50, 100, 500, 25, 250, 10];
         let currentRotation = 0;
 
@@ -335,26 +334,27 @@
             spinBtn.disabled = true;
             resultMessage.textContent = "Spinning...";
 
-            // Random extra spins (5 to 8 full rotations) + random offset angle
-            const randomSpins = Math.floor(Math.random() * 4) + 5;
-            const randomDegree = Math.floor(Math.random() * 360);
-            const totalDegree = currentRotation + (randomSpins * 360) + randomDegree;
+            // Pick a winning slice randomly (0 to 7)
+            const winningIndex = Math.floor(Math.random() * prizes.length);
+            const wonCoins = prizes[winningIndex];
+
+            // Each slice is 45 degrees. Calculate its exact center angle.
+            const sliceCenterAngle = 22.5 + (winningIndex * 45);
+
+            // Calculate exact rotation so this slice lands dead-center under the top pointer
+            const fullSpins = 5; // 5 full rotations for animation effect
+            const targetDegree = currentRotation + (fullSpins * 360) + (((360 - sliceCenterAngle) - (currentRotation % 360)) + 360) % 360;
             
-            currentRotation = totalDegree;
-            wheel.style.transform = `rotate(${totalDegree}deg)`;
+            currentRotation = targetDegree;
+            wheel.style.transform = `rotate(${targetDegree}deg)`;
 
             setTimeout(() => {
-                // Calculate winning slice based on final angle
-                const normalizedAngle = (360 - (totalDegree % 360)) % 360;
-                const sliceIndex = Math.floor(normalizedAngle / 45);
-                const wonCoins = prizes[sliceIndex];
-
-                // Update balance
+                // Update balance and save to localStorage
                 balance += wonCoins;
                 localStorage.setItem('unstableCoins', balance);
                 balanceEl.textContent = `${balance} UnstableCoins`;
 
-                // Show result
+                // Show correct result popup
                 resultMessage.textContent = `🎉 You won ${wonCoins} UnstableCoins!`;
                 isSpinning = false;
                 spinBtn.disabled = false;
