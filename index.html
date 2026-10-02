@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnstableMC | Minecraft Anarchy Server</title>
+    <title>UnstableMC | The Ultimate Anarchy Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,201 +15,88 @@
             color: #f3f4f6;
             font-family: system-ui, -apple-system, sans-serif;
         }
-        .glow-btn-purple {
-            background: linear-gradient(135deg, #7c3aed, #9333ea);
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
-            transition: all 0.3s ease;
-        }
-        .glow-btn-purple:active {
-            transform: scale(0.97);
-            box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
-        }
-        .glow-btn-pink {
-            background: linear-gradient(135deg, #db2777, #e11d48);
-            box-shadow: 0 0 20px rgba(219, 39, 119, 0.4);
-            transition: all 0.3s ease;
-        }
-        .glow-btn-pink:active {
-            transform: scale(0.97);
-            box-shadow: 0 0 10px rgba(219, 39, 119, 0.6);
-        }
         .glass-card {
             background: rgba(19, 17, 30, 0.75);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .dropdown-glass {
-            background: rgba(19, 17, 30, 0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .glow-btn-purple {
+            background: linear-gradient(135deg, #9333ea, #7e22ce);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+            transition: all 0.3s ease;
         }
+        .glow-btn-purple:active { transform: scale(0.97); }
+        .glow-btn-pink {
+            background: linear-gradient(135deg, #e11d48, #be123c);
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
+            transition: all 0.3s ease;
+        }
+        .glow-btn-pink:active { transform: scale(0.97); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between" onclick="closeDropdownOnClickOutside(event)">
+<body class="min-h-screen flex flex-col items-center justify-between">
 
     <!-- Top Header -->
-    <header class="w-full py-4 px-4 flex justify-between items-center max-w-md relative">
-        <div class="text-base font-black tracking-wider bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-            UNSTABLEMC
-        </div>
+    <header class="w-full py-4 px-4 flex justify-between items-center max-w-md">
+        <span class="text-purple-400 font-black tracking-wider text-base">UNSTABLEMC</span>
         <div class="flex items-center gap-2">
-            <!-- Clickable UnstableCoins Balance Badge -->
-            <a href="coins.html" class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)] hover:bg-yellow-500/20 transition">
+            <div class="flex items-center gap-1 bg-yellow-500/10 border border-yellow-500/30 px-2.5 py-1 rounded-full text-yellow-400 text-xs font-bold shadow-[0_0_10px_rgba(234,179,8,0.15)]">
                 <i class="fa-solid fa-coins text-yellow-400 text-[11px]"></i>
-                <span id="coin-balance">1,250</span>
-            </a>
-
-            <!-- Three Dots Menu Button -->
-            <div class="relative">
-                <button id="menu-btn" onclick="toggleMenu(event)" class="text-purple-300 hover:text-white bg-purple-500/10 border border-purple-500/30 w-8 h-8 rounded-full flex items-center justify-center transition">
-                    <i class="fa-solid fa-ellipsis-vertical text-xs"></i>
-                </button>
-
-                <!-- Dropdown Menu -->
-                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-40 dropdown-glass rounded-xl shadow-xl overflow-hidden z-50 flex flex-col py-1">
-                    <a href="marketplace.html" class="flex items-center gap-2 px-3.5 py-2 text-xs text-gray-200 hover:bg-purple-600/30 hover:text-white transition">
-                        <i class="fa-solid fa-store text-purple-400"></i> Store
-                    </a>
-                    <a href="earn.html" class="flex items-center gap-2 px-3.5 py-2 text-xs text-gray-200 hover:bg-yellow-600/30 hover:text-white transition">
-                        <i class="fa-solid fa-dharmachakra text-yellow-400"></i> Earn Coins
-                    </a>
-                </div>
+                <span id="header-balance">1,000</span>
             </div>
+            <a href="shop.html" class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xs hover:bg-purple-500/30 transition">
+                <i class="fa-solid fa-store"></i>
+            </a>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-6">
+    <!-- Main Content -->
+    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-6 items-center text-center">
 
         <!-- Hero Section -->
-        <section class="text-center py-6 flex flex-col items-center">
-            <h1 class="text-3xl font-extrabold tracking-tight mb-3">
-                THE ULTIMATE <span class="text-purple-400">ANARCHY</span> EXPERIENCE
-            </h1>
-            <p class="text-gray-400 text-sm mb-6 leading-relaxed px-2">
+        <section class="py-6 flex flex-col items-center gap-3">
+            <h1 class="text-3xl font-black tracking-tight leading-tight">THE ULTIMATE <span class="text-purple-400">ANARCHY</span> EXPERIENCE</h1>
+            <p class="text-gray-400 text-xs leading-relaxed px-2">
                 Welcome to UnstableMC! Dive into a raw, unfiltered survival world where freedom rules. No map resets, no staff intervention, and absolute player-driven chaos.
             </p>
+        </section>
 
-            <!-- IP Copy Box -->
-            <div onclick="copyIP()" class="w-full glass-card p-4 rounded-xl cursor-pointer flex items-center justify-between mb-4 border border-purple-500/30 active:border-purple-400 transition">
-                <div class="text-left">
-                    <span class="text-xs text-gray-400 block uppercase tracking-wider font-semibold">Server IP</span>
-                    <span id="server-ip" class="text-sm font-bold text-purple-300">unstablemc.pixelforge.gg</span>
+        <!-- Server IP Card -->
+        <section class="glass-card w-full p-4 rounded-2xl flex flex-col gap-3 border border-white/5">
+            <div class="text-left">
+                <span class="text-[10px] font-bold text-gray-400 tracking-wider uppercase">Server IP</span>
+                <div class="flex items-center justify-between mt-1 bg-black/40 border border-white/10 px-3 py-2.5 rounded-xl">
+                    <span id="server-ip" class="text-xs font-mono text-white font-semibold select-all">unstablemc.pixelforge.gg</span>
+                    <button onclick="copyIP()" class="bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 text-xs px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-copy text-[11px]"></i> Copy
+                    </button>
                 </div>
-                <div class="bg-purple-600/20 text-purple-400 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
-                    <i class="fa-solid fa-copy"></i> Copy
-                </div>
-            </div>
-
-            <!-- Toast Notification -->
-            <div id="toast" class="hidden fixed top-5 bg-green-600 text-white text-xs px-4 py-2 rounded-full shadow-lg transition-all duration-300 z-50">
-                IP Copied to Clipboard!
-            </div>
-
-            <!-- CTA Buttons -->
-            <div class="w-full flex flex-col gap-3">
-                <a href="#connect" class="glow-btn-purple text-white font-bold py-3.5 rounded-xl text-center text-sm shadow-lg">
-                    HOW TO CONNECT
-                </a>
-                <a href="https://discord.gg/Rac47jhsw" target="_blank" class="glow-btn-pink text-white font-bold py-3.5 rounded-xl text-center text-sm shadow-lg flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-discord text-lg"></i> JOIN DISCORD
-                </a>
             </div>
         </section>
 
-        <!-- About / Quick Info -->
-        <section class="glass-card p-5 rounded-2xl flex flex-col gap-3">
-            <h2 class="text-sm font-bold tracking-widest text-purple-400 uppercase">Server Info</h2>
-            <div class="flex justify-between text-xs py-1 border-b border-white/5">
+        <!-- Action Buttons -->
+        <div class="w-full flex flex-col gap-3">
+            <a href="#how-to-connect" onclick="alert('Java Edition 1.21+ • Direct Connect using the IP above!')" class="w-full glow-btn-purple text-white font-extrabold py-3.5 rounded-xl text-center text-sm uppercase tracking-wider block">
+                HOW TO CONNECT
+            </a>
+            <a href="https://discord.gg/" target="_blank" class="w-full glow-btn-pink text-white font-extrabold py-3.5 rounded-xl text-center text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                <i class="fa-brands fa-discord text-base"></i> JOIN DISCORD
+            </a>
+            <a href="earn.html" class="w-full bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 font-extrabold py-3 rounded-xl text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-yellow-500/30 transition">
+                <i class="fa-solid fa-dharmachakra"></i> Earn Coins & Spin Wheel
+            </a>
+        </div>
+
+        <!-- Server Info Card -->
+        <section class="glass-card w-full p-4 rounded-2xl flex flex-col gap-3 text-left border border-white/5">
+            <h2 class="text-xs font-black text-purple-400 tracking-wider uppercase">Server Info</h2>
+            <div class="flex justify-between items-center py-1.5 border-b border-white/5 text-xs">
                 <span class="text-gray-400">Version</span>
-                <span class="font-semibold text-gray-200">Java 1.21+</span>
+                <span class="font-semibold text-white">Java 1.21+</span>
             </div>
-            <div class="flex justify-between text-xs py-1">
+            <div class="flex justify-between items-center py-1.5 text-xs">
                 <span class="text-gray-400">Gamemode</span>
-                <span class="font-semibold text-gray-200">Survival</span>
-            </div>
-        </section>
-
-        <!-- How Do I Connect Section -->
-        <section id="connect" class="glass-card p-5 rounded-2xl flex flex-col gap-3">
-            <h2 class="text-base font-black text-white">HOW DO I CONNECT TO UNSTABLEMC?</h2>
-            <p class="text-xs text-gray-400 leading-relaxed">
-                Follow these simple steps to join the server on Minecraft Java Edition:
-            </p>
-            <ol class="text-xs text-gray-300 list-decimal pl-4 flex flex-col gap-2 leading-relaxed">
-                <li>Open Minecraft Java Edition (Fabric/Vanilla).</li>
-                <li>Go to <span class="text-purple-300 font-semibold">Multiplayer</span> and click <span class="text-purple-300 font-semibold">Direct Connection</span> or <span class="text-purple-300 font-semibold">Add Server</span>.</li>
-                <li>Type in the server address: <code class="bg-black/40 px-1.5 py-0.5 rounded text-purple-300">unstablemc.pixelforge.gg</code></li>
-                <li>Click Join Server and dive into the chaos!</li>
-            </ol>
-        </section>
-
-        <!-- Explore The Community Grid -->
-        <section class="flex flex-col gap-4">
-            <h2 class="text-base font-black text-white text-center">EXPLORE THE COMMUNITY</h2>
-            
-            <div class="glass-card p-4 rounded-xl flex items-center gap-4">
-                <div class="w-16 h-16 rounded-lg bg-purple-900/40 flex items-center justify-center text-purple-400 text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-white">Anarchy Survival</h3>
-                    <p class="text-xs text-gray-400 mt-0.5">No rules, no bans, hack freely or build empires. Survive your own way.</p>
-                </div>
-            </div>
-
-            <!-- Clickable Card to Coins Page -->
-            <a href="coins.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/40 transition">
-                <div class="w-16 h-16 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-coins"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                        UnstableCoins System <i class="fa-solid fa-arrow-right text-xs text-yellow-400"></i>
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Click to view your coin analytics, earnings, and transaction history.</p>
-                </div>
-            </a>
-
-            <!-- Clickable Card to Earn Coins (Wheel) Page -->
-            <a href="earn.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-yellow-500/40 transition">
-                <div class="w-16 h-16 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-dharmachakra"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                        Fortune Wheel <i class="fa-solid fa-arrow-right text-xs text-yellow-400"></i>
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Spin the daily wheel to earn free UnstableCoins instantly!</p>
-                </div>
-            </a>
-
-            <!-- Clickable Card to Marketplace Page -->
-            <a href="marketplace.html" class="glass-card p-4 rounded-xl flex items-center gap-4 hover:border-purple-500/40 transition">
-                <div class="w-16 h-16 rounded-lg bg-purple-900/40 flex items-center justify-center text-purple-400 text-2xl flex-shrink-0">
-                    <i class="fa-solid fa-store"></i>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
-                        Server Marketplace <i class="fa-solid fa-arrow-right text-xs text-purple-400"></i>
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Spend your UnstableCoins on ranks, kits, and exclusive perks.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="glass-card p-5 rounded-2xl flex flex-col gap-3">
-            <h2 class="text-base font-black text-white">FAQ</h2>
-            <div class="flex flex-col gap-3 text-xs">
-                <div>
-                    <p class="font-bold text-purple-300">Are hacks allowed?</p>
-                    <p class="text-gray-400 mt-0.5">It's a pure anarchy server—play however you want.</p>
-                </div>
-                <div>
-                    <p class="font-bold text-purple-300">Will the map ever reset?</p>
-                    <p class="text-gray-400 mt-0.5">Never. World history remains permanent.</p>
-                </div>
+                <span class="font-semibold text-white">Survival (Anarchy)</span>
             </div>
         </section>
 
@@ -220,37 +107,29 @@
         <p>&copy; 2026 UnstableMC. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for Menu & Shared Coin Balance Sync -->
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed top-5 bg-green-600 text-white text-xs px-4 py-2 rounded-full shadow-lg transition-all duration-300 z-50">
+        Copied IP to clipboard!
+    </div>
+
     <script>
-        // Sync coin balance across pages using localStorage
-        if (!localStorage.getItem('unstableCoins')) {
-            localStorage.setItem('unstableCoins', '1250');
-        }
-        document.getElementById('coin-balance').innerText = Number(localStorage.getItem('unstableCoins')).toLocaleString();
-
-        function toggleMenu(event) {
-            event.stopPropagation();
-            const menu = document.getElementById('dropdown-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        function closeDropdownOnClickOutside(event) {
-            const menu = document.getElementById('dropdown-menu');
-            const menuBtn = document.getElementById('menu-btn');
-            if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
-                menu.classList.add('hidden');
+        const COIN_KEY = 'unstableCoins';
+        function updateDisplay() {
+            if (!localStorage.getItem(COIN_KEY)) {
+                localStorage.setItem(COIN_KEY, '1000');
             }
+            const balance = Number(localStorage.getItem(COIN_KEY));
+            const el = document.getElementById('header-balance');
+            if (el) el.innerText = balance.toLocaleString();
         }
+        document.addEventListener('DOMContentLoaded', updateDisplay);
+        updateDisplay();
 
         function copyIP() {
-            const ipText = document.getElementById('server-ip').innerText;
-            navigator.clipboard.writeText(ipText).then(() => {
-                const toast = document.getElementById('toast');
-                toast.classList.remove('hidden');
-                setTimeout(() => {
-                    toast.classList.add('hidden');
-                }, 2000);
-            });
+            navigator.clipboard.writeText('unstablemc.pixelforge.gg');
+            const toast = document.getElementById('toast');
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
         }
     </script>
 </body>
