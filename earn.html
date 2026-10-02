@@ -15,6 +15,9 @@
             color: #f3f4f6;
             font-family: system-ui, -apple-system, sans-serif;
         }
+        canvas {
+            touch-action: none; /* Prevents mobile page scrolling while scratching/spinning */
+        }
         .glass-card {
             background: rgba(19, 17, 30, 0.75);
             backdrop-filter: blur(10px);
@@ -365,11 +368,9 @@
 
         setInterval(updateSpinsUI, 1000);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateBalanceDisplay();
-            updateSpinsUI();
-            drawWheel(currentAngle);
-        });
+        // Execute initialization immediately since script is at the bottom of the body
+        updateBalanceDisplay();
+        updateSpinsUI();
 
         function toggleMenu() {
             const menu = document.getElementById('dropdown-menu');
@@ -378,6 +379,4 @@
 
         window.addEventListener('click', function(e) {
             if (!e.target.closest('button')) {
-                document.getElementById('dropdown-menu').classList.add('hidden');
-            }
-        });
+                
