@@ -16,7 +16,7 @@
             font-family: system-ui, -apple-system, sans-serif;
         }
         canvas {
-            touch-action: none; /* Prevents mobile page scrolling while scratching/spinning */
+            touch-action: none;
         }
         .glass-card {
             background: rgba(19, 17, 30, 0.85);
@@ -378,4 +378,8 @@
         window.addEventListener('click', function(e) {
             if (!e.target.closest('button')) {
                 const menu = document.getElementById('dropdown-menu');
-                if (menu) 
+                if (menu) menu.classList.add('hidden');
+            }
+        });
+
+      
