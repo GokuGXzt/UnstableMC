@@ -65,19 +65,25 @@
     </header>
 
     <!-- Main Content -->
-    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-6 items-center text-center">
+    <main class="w-full max-w-md px-4 pb-12 flex flex-col gap-5 items-center text-center">
 
         <!-- Page Header -->
-        <section class="py-2 flex flex-col items-center">
+        <section class="py-1 flex flex-col items-center">
             <div class="w-12 h-12 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center text-xl mb-2 border border-yellow-500/30">
                 <i class="fa-solid fa-dharmachakra"></i>
             </div>
             <h1 class="text-2xl font-black tracking-tight">FORTUNE WHEEL</h1>
-            <p class="text-gray-400 text-xs mt-1">Spin daily to win up to 2,000 UnstableCoins!</p>
+            <p class="text-gray-400 text-xs mt-1">Spin up to 10 times daily to win UnstableCoins!</p>
         </section>
 
+        <!-- Spins Left Counter Badge -->
+        <div class="bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-xs text-gray-300 flex items-center gap-2">
+            <i class="fa-solid fa-rotate text-yellow-400"></i>
+            <span>Spins Available: <strong id="spins-left-count" class="text-yellow-400 font-black">10</strong> / 10</span>
+        </div>
+
         <!-- Wheel Container -->
-        <section class="relative w-72 h-72 flex items-center justify-center my-2">
+        <section class="relative w-72 h-72 flex items-center justify-center my-1">
             <!-- Top Triangle Pointer -->
             <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
             
@@ -92,17 +98,20 @@
             </div>
         </section>
 
-        <!-- Spin Action Button -->
-        <button id="spin-btn" onclick="spinWheel()" class="w-full glow-btn-yellow text-black font-black py-4 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-            <i class="fa-solid fa-play"></i> SPIN THE WHEEL
-        </button>
+        <!-- Spin Action Button & Cooldown Timer -->
+        <div class="w-full flex flex-col gap-2">
+            <button id="spin-btn" onclick="spinWheel()" class="w-full glow-btn-yellow text-black font-black py-4 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play"></i> SPIN THE WHEEL
+            </button>
+            <p id="spin-timer" class="text-xs text-amber-400 font-semibold hidden"></p>
+        </div>
 
         <!-- Info Card -->
         <section class="glass-card w-full p-4 rounded-2xl flex flex-col gap-2 text-left border border-white/5 text-xs text-gray-300">
             <h2 class="font-black text-yellow-400 uppercase tracking-wider mb-1">Wheel Rules</h2>
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-circle-check text-green-400 text-[10px]"></i>
-                <span>Spin once every 24 hours for free coins.</span>
+                <span>You get 10 free spins every 24 hours.</span>
             </div>
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-circle-check text-green-400 text-[10px]"></i>
@@ -136,7 +145,12 @@
     <!-- Script -->
     <script>
         const COIN_KEY = 'unstableCoins';
-        
+        const SPINS_KEY = 'unstableSpinsLeft';
+        const RESET_KEY = 'unstableLastReset';
+        const MAX_SPINS = 10;
+        const COOLDOWN_HOURS = 24;
+        const COOLDOWN_MS = COOLDOWN_HOURS * 60 * 60 * 1000;
+
         function getBalance() {
             if (!localStorage.getItem(COIN_KEY)) {
                 localStorage.setItem(COIN_KEY, '1000');
@@ -146,17 +160,82 @@
 
         function setBalance(val) {
             localStorage.setItem(COIN_KEY, val);
-            updateDisplay();
+            updateBalanceDisplay();
         }
 
-        function updateDisplay() {
+        function updateBalanceDisplay() {
             const balance = getBalance();
             const el = document.getElementById('header-balance');
             if (el) el.innerText = balance.toLocaleString();
         }
 
-        document.addEventListener('DOMContentLoaded', updateDisplay);
-        updateDisplay();
+        // Daily Spins Check & Reset Logic
+        function checkAndResetSpins() {
+            const now = Date.now();
+            let lastReset = localStorage.getItem(RESET_KEY);
+            let spins = localStorage.getItem(SPINS_KEY);
+
+            if (!lastReset || !spins) {
+                localStorage.setItem(RESET_KEY, now);
+                localStorage.setItem(SPINS_KEY, MAX_SPINS);
+                return MAX_SPINS;
+            }
+
+            // Check if 24 hours have passed
+            if (now - Number(lastReset) >= COOLDOWN_MS) {
+                localStorage.setItem(RESET_KEY, now);
+                localStorage.setItem(SPINS_KEY, MAX_SPINS);
+                return MAX_SPINS;
+            }
+
+            return Number(spins);
+        }
+
+        function getRemainingTime() {
+            const lastReset = Number(localStorage.getItem(RESET_KEY) || Date.now());
+            const now = Date.now();
+            const elapsed = now - lastReset;
+            const remaining = COOLDOWN_MS - elapsed;
+            return remaining > 0 ? remaining : 0;
+        }
+
+        function updateSpinsUI() {
+            const spins = checkAndResetSpins();
+            const countEl = document.getElementById('spins-left-count');
+            const btn = document.getElementById('spin-btn');
+            const timerEl = document.getElementById('spin-timer');
+
+            if (countEl) countEl.innerText = spins;
+
+            if (spins <= 0) {
+                btn.disabled = true;
+                const remaining = getRemainingTime();
+                if (remaining > 0) {
+                    const hours = Math.floor(remaining / (1000 * 60 * 60));
+                    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                    if (timerEl) {
+                        timerEl.innerText = `Next 10 spins in: ${hours}h ${minutes}m ${seconds}s`;
+                        timerEl.classList.remove('hidden');
+                    }
+                } else {
+                    // Time elapsed, auto-reset
+                    checkAndResetSpins();
+                    updateSpinsUI();
+                }
+            } else {
+                btn.disabled = false;
+                if (timerEl) timerEl.classList.add('hidden');
+            }
+        }
+
+        // Run interval for countdown clock
+        setInterval(updateSpinsUI, 1000);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBalanceDisplay();
+            updateSpinsUI();
+        });
 
         function toggleMenu() {
             const menu = document.getElementById('dropdown-menu');
@@ -269,6 +348,18 @@
 
         function spinWheel() {
             if (isSpinning) return;
+            
+            let spins = checkAndResetSpins();
+            if (spins <= 0) {
+                updateSpinsUI();
+                return;
+            }
+
+            // Deduct 1 spin
+            spins--;
+            localStorage.setItem(SPINS_KEY, spins);
+            updateSpinsUI();
+
             isSpinning = true;
             document.getElementById('spin-btn').disabled = true;
 
@@ -276,7 +367,7 @@
             const winningIndex = Math.floor(Math.random() * numSlices);
             wonCoinValue = slices[winningIndex].value;
 
-            // Calculate precise target angle so the winning slice lands dead center under top pointer (3*PI/2)
+            // Calculate precise target angle so the winning slice lands dead center under top pointer
             const sliceCenter = winningIndex * arc + arc / 2;
             let desiredFinalAngle = (3 * Math.PI / 2) - sliceCenter;
 
@@ -324,7 +415,7 @@
             document.getElementById('win-modal').classList.add('hidden');
             const newBalance = getBalance() + wonCoinValue;
             setBalance(newBalance);
-            document.getElementById('spin-btn').disabled = false;
+            updateSpinsUI();
         }
     </script>
 </body>
