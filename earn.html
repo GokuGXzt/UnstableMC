@@ -79,10 +79,10 @@
         <!-- Wheel Container -->
         <section class="relative w-72 h-72 flex items-center justify-center my-2">
             <!-- Top Triangle Pointer -->
-            <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"></div>
+            <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
             
             <!-- Canvas Wheel -->
-            <canvas id="wheelCanvas" width="300" height="300" class="w-full h-full rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)]"></canvas>
+            <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)]"></canvas>
             
             <!-- Center Knob -->
             <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)]">
@@ -169,7 +169,7 @@
             }
         });
 
-        // Wheel Configuration (matching reference image)
+        // Wheel Configuration
         const slices = [
             { text: '50', color: '#ec4899', value: 50 },
             { text: '2000', color: '#facc15', value: 2000 },
@@ -199,10 +199,18 @@
         const arc = (2 * Math.PI) / numSlices;
         let currentAngle = 0;
         let isSpinning = false;
+        let wonCoinValue = 0;
+
+        // Setup HiDPI / Retina Canvas Clarity
+        const dpr = window.devicePixelRatio || 1;
+        const size = 300;
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+        ctx.scale(dpr, dpr);
+        const radius = size / 2;
 
         function drawWheel(angle = 0) {
-            const radius = canvas.width / 2;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, size, size);
 
             ctx.save();
             ctx.translate(radius, radius);
@@ -227,10 +235,10 @@
                 ctx.rotate(startAngle + arc / 2);
                 ctx.textAlign = 'right';
                 ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 13px sans-serif';
+                ctx.font = 'bold 13px system-ui, -apple-system, sans-serif';
                 ctx.shadowColor = 'rgba(0,0,0,0.8)';
                 ctx.shadowBlur = 4;
-                ctx.fillText(slices[i].text, radius - 25, 5);
+                ctx.fillText(slices[i].text, radius - 26, 4);
                 ctx.restore();
             }
             ctx.restore();
@@ -245,9 +253,9 @@
             // Draw Glowing Dots on Rim
             const dotCount = 16;
             for (let i = 0; i < dotCount; i++) {
-                const angle = (i * 2 * Math.PI) / dotCount;
-                const x = radius + (radius - 5) * Math.cos(angle);
-                const y = radius + (radius - 5) * Math.sin(angle);
+                const dotAngle = (i * 2 * Math.PI) / dotCount;
+                const x = radius + (radius - 5) * Math.cos(dotAngle);
+                const y = radius + (radius - 5) * Math.sin(dotAngle);
                 ctx.beginPath();
                 ctx.arc(x, y, 3.5, 0, 2 * Math.PI);
                 ctx.fillStyle = '#fef08a';
@@ -259,22 +267,29 @@
 
         drawWheel(currentAngle);
 
-        let wonCoinValue = 0;
-
         function spinWheel() {
             if (isSpinning) return;
             isSpinning = true;
             document.getElementById('spin-btn').disabled = true;
 
-            // Random spin between 5 and 8 full rotations + random slice offset
-            const randomSliceIndex = Math.floor(Math.random() * numSlices);
-            const extraSpins = 360 * (6 + Math.floor(Math.random() * 3));
-            const degreesPerSlice = 360 / numSlices;
-            // Pointer is at top (270 deg / -90 deg in canvas terms)
-            const targetAngle = extraSpins + (360 - (randomSliceIndex * degreesPerSlice)) + (degreesPerSlice / 2);
-            
+            // Pick a random winning slice index
+            const winningIndex = Math.floor(Math.random() * numSlices);
+            wonCoinValue = slices[winningIndex].value;
+
+            // Calculate precise target angle so the winning slice lands dead center under top pointer (3*PI/2)
+            const sliceCenter = winningIndex * arc + arc / 2;
+            let desiredFinalAngle = (3 * Math.PI / 2) - sliceCenter;
+
+            // Add 6 to 8 full rotations forward for animation suspense
+            const extraSpins = (6 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
+            desiredFinalAngle += extraSpins;
+
+            while (desiredFinalAngle < currentAngle + (5 * 2 * Math.PI)) {
+                desiredFinalAngle += 2 * Math.PI;
+            }
+
             const startAngle = currentAngle;
-            const totalRotation = (targetAngle * Math.PI) / 180;
+            const totalRotation = desiredFinalAngle - startAngle;
             const duration = 4000; // 4 seconds
             let startTime = null;
 
@@ -293,10 +308,8 @@
                     requestAnimationFrame(animateSpin);
                 } else {
                     isSpinning = false;
-                    currentAngle = currentAngle % (2 * Math.PI);
-                    
-                    // Determine winning slice
-                    wonCoinValue = slices[randomSliceIndex].value;
+                    currentAngle = desiredFinalAngle % (2 * Math.PI);
+                    drawWheel(currentAngle);
                     
                     // Show win modal
                     document.getElementById('won-amount').innerText = wonCoinValue.toLocaleString();
