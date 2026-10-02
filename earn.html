@@ -19,9 +19,9 @@
             touch-action: none; /* Prevents mobile page scrolling while scratching/spinning */
         }
         .glass-card {
-            background: rgba(19, 17, 30, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(19, 17, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .glow-btn-yellow {
             background: linear-gradient(135deg, #eab308, #ca8a04);
@@ -126,7 +126,7 @@
                 <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
                 
                 <!-- Canvas Wheel -->
-                <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] bg-gray-900"></canvas>
+                <canvas id="wheelCanvas" width="300" height="300" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] bg-gray-900"></canvas>
                 
                 <!-- Center Knob -->
                 <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)] pointer-events-none">
@@ -253,7 +253,7 @@
                     <span id="scratch-prize-text" class="text-xl font-black text-yellow-400">0 Coins</span>
                 </div>
                 <!-- Scratch Foil Canvas -->
-                <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full cursor-pointer"></canvas>
+                <canvas id="scratchCanvas" width="320" height="144" class="absolute inset-0 w-full h-full cursor-pointer"></canvas>
             </div>
 
             <button id="claim-scratch-btn" onclick="claimScratchPrize()" disabled class="w-full glow-btn-yellow text-black font-extrabold py-3 rounded-xl text-xs uppercase tracking-wider opacity-50 cursor-not-allowed">
@@ -308,7 +308,6 @@
             }
         }
 
-        // Daily Spins Check & Reset Logic
         function checkAndResetSpins() {
             const now = Date.now();
             let lastReset = localStorage.getItem(RESET_KEY);
@@ -368,7 +367,6 @@
 
         setInterval(updateSpinsUI, 1000);
 
-        // Execute initialization immediately since script is at the bottom of the body
         updateBalanceDisplay();
         updateSpinsUI();
 
@@ -379,4 +377,5 @@
 
         window.addEventListener('click', function(e) {
             if (!e.target.closest('button')) {
-                
+                const menu = document.getElementById('dropdown-menu');
+                if (menu) 
