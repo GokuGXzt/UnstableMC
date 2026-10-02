@@ -42,7 +42,6 @@
             cursor: not-allowed;
             box-shadow: none;
         }
-        /* Scratch Card Gradients */
         .card-bronze {
             background: linear-gradient(135deg, #78350f, #451a03);
             border: 1px solid rgba(245, 158, 11, 0.3);
@@ -124,10 +123,10 @@
                 <div class="absolute -top-3 z-30 w-0 h-0 border-x-[12px] border-x-transparent border-t-[20px] border-t-amber-400 filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"></div>
                 
                 <!-- Canvas Wheel -->
-                <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)]"></canvas>
+                <canvas id="wheelCanvas" class="w-72 h-72 rounded-full shadow-[0_0_30px_rgba(0,0,0,0.8)] bg-gray-900"></canvas>
                 
                 <!-- Center Knob -->
-                <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)]">
+                <div class="absolute z-20 w-14 h-14 rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-amber-600 border-2 border-amber-200 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.6)] pointer-events-none">
                     <div class="w-6 h-6 rotate-45 bg-amber-700/80 border border-amber-300 flex items-center justify-center">
                         <div class="w-2 h-2 bg-yellow-200"></div>
                     </div>
@@ -369,6 +368,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateBalanceDisplay();
             updateSpinsUI();
+            drawWheel(currentAngle);
         });
 
         function toggleMenu() {
@@ -381,5 +381,3 @@
                 document.getElementById('dropdown-menu').classList.add('hidden');
             }
         });
-
-        // Wheel Configuration
