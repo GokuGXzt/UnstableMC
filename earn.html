@@ -12,7 +12,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            /* Background image updated to bg.jpg with a dark overlay for readability */
             background-color: #121212;
             background-image: linear-gradient(rgba(18, 18, 18, 0.8), rgba(18, 18, 18, 0.8)), url('bg.jpg');
             background-size: cover;
@@ -32,15 +31,38 @@
             flex-direction: column;
             align-items: center;
         }
+        
+        /* Balance Bar */
+        .balance-bar {
+            background-color: rgba(30, 30, 36, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            border-radius: 30px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .balance-bar span {
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+        .balance-bar strong {
+            font-size: 16px;
+            color: #f39c12;
+        }
+
         .header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .header h1 {
             font-size: 24px;
             font-weight: 800;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         .header p {
@@ -70,7 +92,7 @@
             position: relative;
             width: 280px;
             height: 280px;
-            margin: 20px 0 30px 0;
+            margin: 20px 0 20px 0;
         }
 
         /* Wheel with Border and Conic Gradient Slices */
@@ -82,16 +104,16 @@
             box-shadow: 0 0 20px rgba(243, 156, 18, 0.4), inset 0 0 10px rgba(0,0,0,0.5);
             position: relative;
             overflow: hidden;
-            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            transition: transform 4s cubic-bezier(0.15, 0.75, 0.12, 1);
             background: conic-gradient(
-                #e74c3c 0deg 45deg,
-                #9b59b6 45deg 90deg,
-                #f1c40f 90deg 135deg,
-                #e67e22 135deg 180deg,
-                #e91e63 180deg 225deg,
-                #3498db 225deg 270deg,
-                #2ecc71 270deg 315deg,
-                #34495e 315deg 360deg
+                #f1c40f 0deg 45deg,
+                #e67e22 45deg 90deg,
+                #e91e63 90deg 135deg,
+                #3498db 135deg 180deg,
+                #2ecc71 180deg 225deg,
+                #34495e 225deg 270deg,
+                #e74c3c 270deg 315deg,
+                #9b59b6 315deg 360deg
             );
         }
 
@@ -164,6 +186,16 @@
         .item-8 { transform: translateY(-50%) rotate(337.5deg); }
         .item-8 span { transform: rotate(180deg); }
 
+        /* Result Popup Notification */
+        #resultMessage {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2ecc71;
+            margin-bottom: 12px;
+            min-height: 20px;
+            text-align: center;
+        }
+
         /* Spin Button */
         .spin-btn {
             background: linear-gradient(135deg, #f39c12, #e67e22);
@@ -183,6 +215,10 @@
         }
         .spin-btn:hover {
             filter: brightness(1.1);
+        }
+        .spin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         /* Other Ways to Earn Section */
@@ -236,6 +272,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- Live Coin Balance Bar -->
+        <div class="balance-bar">
+            <span>Balance:</span>
+            <strong id="coinBalance">0 UnstableCoins</strong>
+        </div>
+
         <div class="header">
             <h1>FORTUNE WHEEL</h1>
             <p>Spin the wheel every day to test your luck and earn free UnstableCoins!</p>
@@ -257,6 +299,7 @@
                 <div class="wheel-center"></div>
             </div>
 
+            <div id="resultMessage"></div>
             <button class="spin-btn" id="spinBtn">SPIN THE WHEEL (FREE)</button>
         </div>
 
@@ -272,21 +315,49 @@
     </div>
 
     <script>
+        // Initialize balance from localStorage
+        let balance = parseInt(localStorage.getItem('unstableCoins')) || 0;
+        const balanceEl = document.getElementById('coinBalance');
+        balanceEl.textContent = `${balance} UnstableCoins`;
+
         const spinBtn = document.getElementById('spinBtn');
         const wheel = document.getElementById('fortuneWheel');
+        const resultMessage = document.getElementById('resultMessage');
         let isSpinning = false;
+
+        // Prizes corresponding to each 45-degree slice clockwise from top
+        const prizes = [1000, 75, 50, 100, 500, 25, 250, 10];
+        let currentRotation = 0;
 
         spinBtn.addEventListener('click', () => {
             if (isSpinning) return;
             isSpinning = true;
-            spinBtn.style.opacity = '0.6';
+            spinBtn.disabled = true;
+            resultMessage.textContent = "Spinning...";
 
-            const randomDegree = Math.floor(Math.random() * 360) + 1800;
-            wheel.style.transform = `rotate(${randomDegree}deg)`;
+            // Random extra spins (5 to 8 full rotations) + random offset angle
+            const randomSpins = Math.floor(Math.random() * 4) + 5;
+            const randomDegree = Math.floor(Math.random() * 360);
+            const totalDegree = currentRotation + (randomSpins * 360) + randomDegree;
+            
+            currentRotation = totalDegree;
+            wheel.style.transform = `rotate(${totalDegree}deg)`;
 
             setTimeout(() => {
+                // Calculate winning slice based on final angle
+                const normalizedAngle = (360 - (totalDegree % 360)) % 360;
+                const sliceIndex = Math.floor(normalizedAngle / 45);
+                const wonCoins = prizes[sliceIndex];
+
+                // Update balance
+                balance += wonCoins;
+                localStorage.setItem('unstableCoins', balance);
+                balanceEl.textContent = `${balance} UnstableCoins`;
+
+                // Show result
+                resultMessage.textContent = `🎉 You won ${wonCoins} UnstableCoins!`;
                 isSpinning = false;
-                spinBtn.style.opacity = '1';
+                spinBtn.disabled = false;
             }, 4000);
         });
     </script>
