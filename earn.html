@@ -95,7 +95,7 @@
             margin: 15px 0 20px 0;
         }
 
-        /* Pointer Arrow - Positioned directly on top border */
+        /* Pointer Arrow - Positioned directly on top border of wheel container */
         .wheel-pointer {
             position: absolute;
             top: -10px;
@@ -284,17 +284,17 @@
         </div>
 
         <div class="wheel-card">
-            <div class="wheel-pointer"></div>
             <div class="wheel-container">
+                <div class="wheel-pointer"></div>
                 <div class="wheel" id="fortuneWheel">
-                    <div class="wheel-item item-1"><span>1000</span></div>
-                    <div class="wheel-item item-2"><span>75</span></div>
-                    <div class="wheel-item item-3"><span>50</span></div>
-                    <div class="wheel-item item-4"><span>100</span></div>
-                    <div class="wheel-item item-5"><span>500</span></div>
-                    <div class="wheel-item item-6"><span>25</span></div>
-                    <div class="wheel-item item-7"><span>250</span></div>
-                    <div class="wheel-item item-8"><span>10</span></div>
+                    <div class="wheel-item item-1"><span>250</span></div>
+                    <div class="wheel-item item-2"><span>10</span></div>
+                    <div class="wheel-item item-3"><span>1000</span></div>
+                    <div class="wheel-item item-4"><span>75</span></div>
+                    <div class="wheel-item item-5"><span>50</span></div>
+                    <div class="wheel-item item-6"><span>100</span></div>
+                    <div class="wheel-item item-7"><span>500</span></div>
+                    <div class="wheel-item item-8"><span>25</span></div>
                 </div>
                 <div class="wheel-center"></div>
             </div>
@@ -324,8 +324,8 @@
         const resultMessage = document.getElementById('resultMessage');
         let isSpinning = false;
 
-        // Prizes in order matching the slices clockwise from top
-        const prizes = [1000, 75, 50, 100, 500, 25, 250, 10];
+        // Perfectly synchronized with visual wheel slices clockwise from top (0°)
+        const prizes = [250, 10, 1000, 75, 50, 100, 500, 25];
         let currentRotation = 0;
 
         spinBtn.addEventListener('click', () => {
@@ -338,11 +338,11 @@
             const winningIndex = Math.floor(Math.random() * prizes.length);
             const wonCoins = prizes[winningIndex];
 
-            // Each slice is 45 degrees. Calculate its exact center angle.
+            // Calculate exact center angle of the chosen slice
             const sliceCenterAngle = 22.5 + (winningIndex * 45);
 
-            // Calculate exact rotation so this slice lands dead-center under the top pointer
-            const fullSpins = 5; // 5 full rotations for animation effect
+            // Calculate target rotation to land dead-center under the top pointer
+            const fullSpins = 5;
             const targetDegree = currentRotation + (fullSpins * 360) + (((360 - sliceCenterAngle) - (currentRotation % 360)) + 360) % 360;
             
             currentRotation = targetDegree;
@@ -354,7 +354,7 @@
                 localStorage.setItem('unstableCoins', balance);
                 balanceEl.textContent = `${balance} UnstableCoins`;
 
-                // Show correct result popup
+                // Show correct result message
                 resultMessage.textContent = `🎉 You won ${wonCoins} UnstableCoins!`;
                 isSpinning = false;
                 spinBtn.disabled = false;
