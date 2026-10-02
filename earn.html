@@ -168,7 +168,7 @@
 
     <!-- Footer -->
     <footer class="w-full py-6 text-center text-xs text-gray-500 border-t border-white/5">
-        <p>&copy; 2026 UnstableMC. All rights reserved.</p>
+        <p>&copy; 2026 UnstableMC. All rights reserved. <span class="text-purple-400 font-semibold">(v3.2 - Wheel Fixed)</span></p>
     </footer>
 
     <!-- JavaScript for Wheel Logic -->
@@ -182,7 +182,7 @@
         let currentRotation = 0;
         let isSpinning = false;
         
-        // Exactly matches clockwise order starting from top slice (0 to 7)
+        // Exactly maps clockwise order starting from top slice (0 to 7)
         const rewards = [25, 250, 10, 1000, 75, 50, 100, 500];
 
         function spinWheel() {
@@ -198,13 +198,19 @@
             const wonCoins = rewards[winningIndex];
 
             // 2. Calculate exact rotation to land precisely on this sector's center
-            const degreesPerSector = 360 / 8; // 45 degrees per slice
+            const degreesPerSector = 360 / 8; // 45 degrees
             const sectorCenter = (winningIndex * degreesPerSector) + (degreesPerSector / 2);
             
-            const extraTurns = 360 * 6; // 6 full spins
-            const targetRotation = currentRotation + extraTurns + ((360 - sectorCenter - (currentRotation % 360) + 360) % 360);
+            const extraTurns = 360 * 5; // 5 full spins
+            
+            // Foolproof angle calculation
+            const currentMod = currentRotation % 360;
+            const targetMod = (360 - sectorCenter) % 360;
+            let diff = targetMod - currentMod;
+            if (diff < 0) diff += 360;
 
-            currentRotation = targetRotation;
+            currentRotation += extraTurns + diff;
+
             const wheel = document.getElementById('wheel');
             wheel.style.transform = `rotate(${currentRotation}deg)`;
 
