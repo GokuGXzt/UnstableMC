@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UnstableMC | 24/7 Anarchy Minecraft Server</title>
+<meta name="description" content="UnstableMC is a 24/7 anarchy Minecraft server on the Unstable SMP map. No rules. Join the chaos.">
+<meta name="theme-color" content="#07060d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<noscript><style>.rv:not(.in){opacity:1!important}</style></noscript>
+<style>
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+:root{--g:#39ff88;--p:#b537ff;--c:#00e5ff;--r:#ff2e63;--bg:#07060d;--px:'Press Start 2P','Courier New',monospace}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:#e8e6f5;font:16px/1.6 system-ui,sans-serif;overflow-x:hidden;cursor:crosshair}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:98;background:repeating-linear-gradient(#0000 0 2px,#0004 2px 3px)}
+:focus-visible{outline:3px solid var(--c);outline-offset:4px}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
+#bar{position:fixed;top:0;left:0;height:4px;width:0;z-index:99;background:linear-gradient(90deg,var(--g),var(--p),var(--c));box-shadow:0 0 14px var(--g)}
+main{position:relative;z-index:1}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:#07060dcc;backdrop-filter:blur(10px);border-bottom:1px solid #39ff8833;font:.6rem var(--px)}
+nav b{font-size:.85rem;color:var(--g);text-shadow:0 0 10px var(--g);animation:jit 3s infinite}
+nav div{display:flex;gap:18px;align-items:center}
+nav a{color:#fff;text-decoration:none;transition:.2s}
+nav a:hover{color:var(--g);text-shadow:0 0 10px var(--g)}
+.dc{border:2px solid var(--p);padding:9px 12px;border-radius:6px;box-shadow:0 0 14px var(--p)}
+@keyframes jit{0%,92%,100%{transform:none}94%{transform:translate(-3px,1px) skew(8deg)}96%{transform:translate(3px,-1px)}98%{transform:translate(-2px,0)}}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:110px 5vw 90px;overflow:hidden;gap:24px}
+.hero::before{content:"";position:absolute;width:70vmax;height:70vmax;background:radial-gradient(circle,#b537ff33,transparent 60%);animation:br 6s ease-in-out infinite;z-index:-1}
+@keyframes br{50%{transform:scale(1.25);opacity:.6}}
+.floor{position:absolute;left:-50%;right:-50%;bottom:0;height:42%;z-index:-1;background:linear-gradient(var(--g) 2px,#0000 2px) 0 0/70px 70px,linear-gradient(90deg,var(--g) 2px,#0000 2px) 0 0/70px 70px;opacity:.28;transform:perspective(350px) rotateX(62deg);transform-origin:bottom;animation:fl 1s linear infinite;-webkit-mask-image:linear-gradient(#0000,#000);mask-image:linear-gradient(#0000,#000)}
+@keyframes fl{to{background-position:0 70px,0 70px}}
+.tag{font:.65rem var(--px);color:var(--c);animation:bl 1.4s steps(2) infinite}
+@keyframes bl{50%{opacity:.35}}
+.glitch{position:relative;font:clamp(1.5rem,8.3vw,5.5rem)/1.1 var(--px);color:#fff;text-shadow:0 0 24px var(--g),0 0 70px var(--p)}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;text-shadow:none}
+.glitch::before{color:var(--c);transform:translate(-4px);animation:g1 1.8s infinite linear alternate-reverse}
+.glitch::after{color:#ff00e6;transform:translate(4px);animation:g2 2.3s infinite linear alternate-reverse}
+@keyframes g1{0%{clip-path:inset(10% 0 80% 0)}20%{clip-path:inset(60% 0 10% 0)}40%{clip-path:inset(30% 0 50% 0)}60%{clip-path:inset(85% 0 4% 0)}80%{clip-path:inset(4% 0 75% 0)}100%{clip-path:inset(45% 0 35% 0)}}
+@keyframes g2{0%{clip-path:inset(70% 0 10% 0)}25%{clip-path:inset(5% 0 85% 0)}50%{clip-path:inset(50% 0 30% 0)}75%{clip-path:inset(20% 0 60% 0)}100%{clip-path:inset(90% 0 2% 0)}}
+.sub{font:clamp(.7rem,2.4vw,1.1rem) var(--px);color:var(--g);min-height:1.6em;text-shadow:0 0 12px var(--g)}
+.cur{display:inline-block;width:.6em;height:1em;background:var(--g);margin-left:6px;vertical-align:-.1em;animation:bl .8s steps(2) infinite}
+.ipw{font:.6rem var(--px);color:#9a96b8;display:flex;flex-direction:column;gap:12px;align-items:center;max-width:100%}
+.ip{position:relative;overflow:hidden;display:flex;flex-wrap:wrap;justify-content:center;gap:16px;align-items:center;max-width:100%;font:clamp(.7rem,3vw,1.2rem) var(--px);color:#fff;background:#0d0b17;border:3px solid var(--g);border-radius:10px;padding:18px 22px;cursor:pointer;animation:pu 2s infinite;transition:transform .2s;word-break:break-all}
+.ip:hover{transform:scale(1.07) rotate(-1deg)}
+.ip:active{transform:scale(.95)}
+.ip::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,#0000,#fff6,#0000);transform:skewX(-20deg);animation:sn 2.6s infinite}
+.ip b{background:var(--g);color:#000;padding:8px 10px;border-radius:5px;font-weight:400;font-size:.65em}
+@keyframes pu{0%,100%{box-shadow:0 0 14px var(--g),inset 0 0 14px #39ff8822}50%{box-shadow:0 0 40px var(--g),0 0 80px #39ff8866,inset 0 0 24px #39ff8844}}
+@keyframes sn{to{left:130%}}
+.st{font:.65rem var(--px);color:#cfcbe8;display:flex;gap:10px;align-items:center}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g);animation:dp 1.2s infinite}
+@keyframes dp{50%{transform:scale(1.6);opacity:.5}}
+.btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn{font:.65rem var(--px);color:#fff;text-decoration:none;padding:16px 20px;border-radius:8px;background:linear-gradient(135deg,var(--p),#6a1bff);box-shadow:0 0 24px #b537ff88;transition:.2s}
+.btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 8px 40px var(--p)}
+.btn.o{background:none;border:2px solid var(--c);color:var(--c);box-shadow:0 0 20px #00e5ff44}
+.belt{overflow:hidden;white-space:nowrap;background:var(--g);color:#000;font:.8rem var(--px);padding:14px 0;transform:rotate(-2deg);margin:40px -5vw;box-shadow:0 0 40px #39ff8866}
+.belt.rev{background:var(--p);color:#fff;transform:rotate(1.5deg);margin-top:-10px;box-shadow:0 0 40px #b537ff88}
+.belt div{display:inline-block;animation:mq 22s linear infinite}
+.belt.rev div{animation-direction:reverse}
+@keyframes mq{to{transform:translateX(-50%)}}
+section{padding:100px 5vw;max-width:1100px;margin:auto;text-align:center}
+h2{font:clamp(1rem,4vw,2rem)/1.5 var(--px);margin-bottom:22px;background:linear-gradient(90deg,var(--g),var(--c),var(--p),var(--g));background-size:300%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fw 4s linear infinite}
+@keyframes fw{to{background-position:300%}}
+.lead{max-width:640px;margin:0 auto 50px;color:#b9b5d6;font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:30px}
+.card{position:relative;isolation:isolate;border-radius:14px;padding:28px;text-align:left;transition:transform .15s}
+.card::before,.card::after{content:"";position:absolute;z-index:-1}
+.card::before{inset:-2px;border-radius:16px;background:conic-gradient(from var(--a),var(--g),var(--p),var(--c),var(--g));animation:sp 4s linear infinite}
+.card::after{inset:0;border-radius:14px;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),#39ff8833,transparent 60%),#0d0b17}
+@keyframes sp{to{--a:360deg}}
+.card i{display:block;font-size:2.6rem;font-style:normal;margin-bottom:12px;animation:fy 3s ease-in-out infinite}
+.card h3,.step h3{font:.8rem/1.6 var(--px);color:var(--g);margin-bottom:10px}
+.card p,.step p{color:#b9b5d6;font-size:.95rem}
+@keyframes fy{50%{transform:translateY(-10px) rotate(8deg)}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:70px}
+.stats b{display:block;font:clamp(1.6rem,5vw,2.6rem) var(--px);color:#fff;text-shadow:0 0 20px var(--p)}
+.stats span{display:block;font:.6rem var(--px);color:var(--c);margin-top:14px}
+.step{background:#0d0b17;border:1px solid #39ff8844;border-radius:12px;padding:26px;text-align:left;transition:.25s}
+.step:hover{border-color:var(--g);transform:translateY(-8px);box-shadow:0 10px 40px #39ff8833}
+.step em{display:block;font:2rem var(--px);font-style:normal;color:var(--p);text-shadow:0 0 16px var(--p);margin-bottom:12px}
+.dp{margin-top:44px;font:.65rem var(--px);color:#fff;background:var(--r);border:0;border-radius:8px;padding:16px 20px;cursor:pointer;animation:sk 1.5s infinite;box-shadow:0 0 30px var(--r)}
+@keyframes sk{0%,80%,100%{transform:none}84%{transform:translateX(-4px) rotate(-2deg)}88%{transform:translateX(4px) rotate(2deg)}92%{transform:translateX(-4px)}96%{transform:translateX(4px)}}
+footer{position:relative;z-index:1;padding:40px 5vw 60px;text-align:center;font:.55rem/2.2 var(--px);color:#6e6a8f;border-top:1px solid #39ff8822}
+.fl{position:fixed;z-index:97;pointer-events:none;font:.8rem var(--px);color:var(--g);text-shadow:0 0 10px var(--g);white-space:nowrap;animation:fu 1.2s forwards}
+@keyframes fu{from{transform:translate(-50%,0)}to{transform:translate(-50%,-120px);opacity:0}}
+@keyframes sh{0%,100%{transform:none;filter:none}20%{transform:translate(-8px,3px) skewX(3deg);filter:hue-rotate(90deg)}40%{transform:translate(7px,-5px);filter:saturate(2)}60%{transform:translate(-5px,-3px) skewX(-3deg);filter:hue-rotate(-70deg) saturate(2)}80%{transform:translate(4px,5px)}}
+.gl main,.gl nav{animation:sh .35s steps(3)}
+.chaos main,.chaos nav{animation:sh .3s steps(3) infinite}
+.rv:not(.in){opacity:0}
+.rv.in{animation:up .8s cubic-bezier(.2,.8,.2,1) var(--d,0s) backwards}
+@keyframes up{from{opacity:0;transform:translateY(50px) scale(.9)}}
+@media(max-width:560px){nav div a:not(.dc){display:none}}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<canvas id="fx"></canvas>
+<nav><b>UnstableMC</b><div><a href="#about">About</a><a href="#join">How to join</a><a class="dc" href="#">Discord</a></div></nav>
+<main>
+<header class="hero">
+  <div class="floor"></div>
+  <p class="tag">24/7 ANARCHY SERVER</p>
+  <h1 class="glitch" data-t="UNSTABLEMC">UNSTABLEMC</h1>
+  <p class="sub">&gt; <span id="ty"></span><i class="cur"></i></p>
+  <div class="ipw">Click to copy the server IP
+    <button class="ip" aria-label="Copy server IP"><span data-ip></span><b>COPY</b></button>
+  </div>
+  <p class="st" id="st"><i class="dot"></i><span>24/7 ONLINE</span></p>
+  <div class="btns"><a class="btn dc" href="#">Join the Discord</a><a class="btn o" href="#join">How to join</a></div>
+</header>
+
+<div class="belt"><div>UNSTABLEMC ✦ ANARCHY ✦ 24/7 ✦ UNSTABLE SMP ✦ NO RULES ✦ </div></div>
+<div class="belt rev"><div>TRUST NOBODY ✦ BUILD ✦ RAID ✦ SURVIVE ✦ GO UNSTABLE ✦ </div></div>
+
+<section id="about">
+  <h2 class="rv">What is UnstableMC?</h2>
+  <p class="lead rv" style="--d:.1s">A 24/7 anarchy Minecraft server running the Unstable SMP map. Build empires, burn them down, and make allies and enemies along the way.</p>
+  <div class="grid">
+    <div class="card rv"><i>💀</i><h3>Anarchy</h3><p>No rules holding you back. Build, raid, scheme, and survive however you like.</p></div>
+    <div class="card rv" style="--d:.15s"><i>🗺️</i><h3>Unstable SMP map</h3><p>Explore the Unstable SMP map. Every chunk hides something, or someone.</p></div>
+    <div class="card rv" style="--d:.3s"><i>⏰</i><h3>Always online</h3><p>The server runs 24/7. Hop on at any hour and the chaos is already going.</p></div>
+  </div>
+  <div class="stats">
+    <div class="rv"><b>24/7</b><span>UPTIME</span></div>
+    <div class="rv" style="--d:.15s"><b data-f="100">100</b><span>RULES</span></div>
+    <div class="rv" style="--d:.3s"><b>∞</b><span>CHAOS</span></div>
+  </div>
+</section>
+
+<section id="join">
+  <h2 class="rv">How to join</h2>
+  <p class="lead rv" style="--d:.1s">Four steps from your desktop to the wasteland.</p>
+  <div class="grid">
+    <div class="step rv"><em>1</em><h3>Open Minecraft</h3><p>Launch the game and click Multiplayer.</p></div>
+    <div class="step rv" style="--d:.12s"><em>2</em><h3>Add Server</h3><p>Click Add Server and name it UnstableMC.</p></div>
+    <div class="step rv" style="--d:.24s"><em>3</em><h3>Paste the IP</h3><p>Paste the server IP from this page, then save.</p></div>
+    <div class="step rv" style="--d:.36s"><em>4</em><h3>Survive</h3><p>Join the server. Good luck, you'll need it.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2 class="rv">Ready to go unstable?</h2>
+  <div class="ipw rv" style="--d:.1s"><button class="ip" aria-label="Copy server IP"><span data-ip></span><b>COPY</b></button></div>
+  <button class="dp" id="dp">DON'T PRESS THIS</button>
+</section>
+</main>
+<footer>© <span id="y"></span> UnstableMC<br>Not an official Minecraft service. Not approved by or associated with Mojang or Microsoft.</footer>
+
+<script>
+const IP='play.unstablemc.example',DISCORD='#'; // CHANGE THESE TWO
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+$$('[data-ip]').forEach(e=>e.textContent=IP);
+$$('.dc').forEach(a=>a.href=DISCORD);
+$('#y').textContent=new Date().getFullYear();
+$$('.belt div').forEach(d=>d.textContent=d.textContent.repeat(12));
+
+// canvas: falling blocks, cursor trail, bursts
+const cv=$('#fx'),x=cv.getContext('2d'),COL=['#39ff88','#b537ff','#00e5ff','#ff2e63'],RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let W,H,mx=-999,my=-999;const P=[],B=[];
+const rnd=a=>Math.random()*a,pick=()=>COL[rnd(4)|0];
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+function mk(i){return{x:rnd(W),y:i?rnd(H):-20,s:4+rnd(14),v:.3+rnd(1.4),c:pick(),r:rnd(6.28),w:(rnd(1)-.5)*.04,a:.15+rnd(.4)}}
+rs();addEventListener('resize',rs);
+if(!RM)for(let i=0;i<Math.min(70,W/14|0);i++)P.push(mk(1));
+function burst(px,py,n=40){for(let i=0;i<n;i++){const a=rnd(6.28),s=2+rnd(7);B.push({x:px,y:py,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c:pick(),s:4+rnd(8)})}}
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!RM)B.push({x:mx,y:my,vx:rnd(2)-1,vy:rnd(2)-1,l:.7,c:pick(),s:3+rnd(5)})});
+addEventListener('click',e=>burst(e.clientX,e.clientY,18));
+(function loop(){x.clearRect(0,0,W,H);
+ for(const p of P){const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy)||1;if(d<150){p.x+=dx/d*3;p.y+=dy/d*3}
+  p.y+=p.v;p.r+=p.w;if(p.y>H+20)Object.assign(p,mk());
+  x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=p.a;x.fillStyle=x.shadowColor=p.c;x.shadowBlur=12;x.fillRect(-p.s/2,-p.s/2,p.s,p.s);x.restore()}
+ for(let i=B.length;i--;){const b=B[i];b.x+=b.vx;b.y+=b.vy;b.vy+=.25;b.l-=.018;if(b.l<=0){B.splice(i,1);continue}x.globalAlpha=b.l;x.fillStyle=b.c;x.fillRect(b.x,b.y,b.s,b.s)}
+ x.globalAlpha=1;requestAnimationFrame(loop)})();
+
+// typewriter
+const T=['NO RULES.','TOTAL ANARCHY.','UNSTABLE SMP MAP.','24/7 ONLINE.','TRUST NOBODY.'];
+let ti=0,ci=0,dl=0;
+(function tk(){const w=T[ti];ci+=dl?-1:1;$('#ty').textContent=w.slice(0,ci);let t=dl?35:85;if(!dl&&ci==w.length){dl=1;t=1300}else if(dl&&!ci){dl=0;ti=(ti+1)%T.length;t=250}setTimeout(tk,t)})();
+
+// scroll reveal + counters + progress bar
+function cnt(el){const f=+el.dataset.f,s=performance.now();(function u(n){const k=Math.min((n-s)/1600,1);el.textContent=Math.round(f*(1-k*k*(3-2*k)));k<1&&requestAnimationFrame(u)})(s)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-f]').forEach(cnt);io.unobserve(e.target)}}),{threshold:.2});
+$$('.rv').forEach(e=>io.observe(e));
+addEventListener('scroll',()=>$('#bar').style.width=scrollY/(document.documentElement.scrollHeight-innerHeight)*100+'%',{passive:true});
+
+// 3D tilt cards
+$$('.card').forEach(c=>{c.onpointermove=e=>{const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${px*18}deg) rotateX(${-py*18}deg) scale(1.04)`;c.style.setProperty('--mx',(px+.5)*100+'%');c.style.setProperty('--my',(py+.5)*100+'%')};c.onpointerleave=()=>c.style.transform=''});
+
+// copy IP
+function aura(px,py,t){const d=document.createElement('div');d.className='fl';d.textContent=t;d.style.left=px+'px';d.style.top=py+'px';document.body.append(d);setTimeout(()=>d.remove(),1200)}
+$$('.ip').forEach(b=>b.onclick=()=>{navigator.clipboard?.writeText(IP).catch(()=>{});const t=b.querySelector('b'),r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;t.textContent='COPIED!';setTimeout(()=>t.textContent='COPY',1500);burst(cx,cy,80);aura(cx,cy-30,'+9999 AURA')});
+
+// the button you shouldn't press
+$('#dp').onclick=e=>{const b=document.body;if(b.classList.contains('chaos'))return;b.classList.add('chaos');const t=setInterval(()=>burst(rnd(W),rnd(H),30),90);setTimeout(()=>{clearInterval(t);b.classList.remove('chaos')},3000);e.target.textContent='I TOLD YOU.';aura(e.clientX,e.clientY-30,'+INFINITE AURA')};
+
+// random instability
+if(!RM)(function g(){setTimeout(()=>{document.body.classList.add('gl');setTimeout(()=>document.body.classList.remove('gl'),400);g()},3000+rnd(5000))})();
+
+// live player count
+fetch('https://api.mcsrvstat.us/3/'+IP).then(r=>r.json()).then(d=>{if(d.online)$('#st span').textContent=`ONLINE: ${d.players?.online??0}/${d.players?.max??'?'} PLAYERS`}).catch(()=>{});
+</script>
+</body>
+</html>
